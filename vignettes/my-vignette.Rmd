@@ -1,0 +1,28 @@
+---
+title: "An introduction to the *detlimitr* package"
+author: "Peter Watkins"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{my-vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+The **detlimitr** (calculation  of **det**ection **limit** using **R**) package contains a number of functions for calculating detection limits. The detection limit is an important analytical figure of merit, and the calculations performed in this package utilises calibration data which is used to model the analytical response. 
+
+The package utilises two R packages, *dplyr* and *ggplot2*, in its implementation.
+
+```{r setup}
+#library(detlimitr)
+```
+
+It is assumed that a linear relationship exists the measured response and analyte concentration.
+
