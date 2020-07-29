@@ -2,7 +2,7 @@
 #' Issue if the column names are not 'x' & 'y'
 #'
 adjustcolnames <- function(d) {
-    if (colnames(d[, 1]) != "x") {
+    if (colnames(d)[1] != "x") {
         names(d)[1] <- "x"
         names(d)[2] <- "y"
     }

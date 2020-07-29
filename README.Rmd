@@ -1,0 +1,33 @@
+*detlimir*
+==========
+
+### An introduction to the detlimitr package
+
+The *detlimir* (**det**ection **limit** calculation using **R**) package contains a suite of functions for use with calibration data in analytical chemistry,
+
+The detection limit is an important figure of merit in chemical analysis.  It is also known as the lower limit of detection, or LOD (limit of detection), and can be defined as the lowest quantity of a substance that can be distinguished from the absence of that substance (a blank value) with a stated confidence level (generally 99%).
+
+A broad range of literature is available which discusses detection limits and an indicative list is provided below.
+
+If required, the *detlimiter* package can be downloaded using
+
+``` r
+install.packages("devtools") 
+devtools::install_github("peterjwatkins/detlimitr", force=TRUE)
+
+```
+
+In this package, the detection limit is calculated using three approaches; i) Miller and Miller, ii) Hubert and Vos and iii) Vogelsang and Hadrich. It assumes that a linear relationship exists between the measured response and standard concentration.
+
+The function *reportDL* returns the calculated detection limits according to the three approaches while *show_limits* shows a segment of the calibration curve, indicating where each of these points are located on the curve.
+
+Some example code:
+
+``` r
+library(detlimitr)
+data(mtbe)
+head(mtbe)
+reportDL(mtbe)
+show_limits(mtbe)
+```
+
