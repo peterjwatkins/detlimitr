@@ -36,8 +36,7 @@ s_y <- function(x, y) {
 #' @param y A vector
 #' @examples
 #' dl_vogelhad(x,y)
-#' @export xc
-#' @export xd
+#' @export dls
 dl_vogelhad <- function(x, y) {
     # Vogelgesang-Hadrich
     n <- length(x)
@@ -47,7 +46,8 @@ dl_vogelhad <- function(x, y) {
         sqrt(1 + 1 / n + mean(x) ^ 2 / sum((x - mean(x)) ^ 2))
     x_crit <- (y_crit - ls[2]) / ls[1]
     x_id <- 2 * x_crit
-    return(c(xc = x_crit, xd = x_id))
+    dls <- c(xc = x_crit, xd = x_id)
+    return(dls)
 }
 #
 #' Calculates the detection limit according to Miller & Miller
@@ -55,8 +55,7 @@ dl_vogelhad <- function(x, y) {
 #' @param y A vector
 #' @examples
 #' dl_miller(x,y)
-#' @export dl
-#' @export blank_dl
+#' @export dls
 dl_miller <- function(x, y) {
     #Miller - Miller
     n <- length(x)
@@ -64,8 +63,9 @@ dl_miller <- function(x, y) {
 
     dl <- (3 * s_y(x, y)) / ls[1]
     blank_dl <- (3 * s_y(x, y) + ls[2]) / ls[1]
-    return(c(dl = dl,
-             b_dl = blank_dl))
+    dls <- c(dl = dl,
+             b_dl = blank_dl)
+    return(dls)
 }
 
 #' Calculates the detection limit according to Hubert & Vos using iterative calculation
@@ -101,14 +101,15 @@ dl_hubertvos <- function(x, y, alpha = NULL, beta = NULL) {
     }
 }
 
-#' Reports detection limits ()
+#' A wrapper function for reporting detection limits
 #' @param dat A vector containing x and y
 #' @examples
 #' reportDL(dat)
-reportDL <- function(d) {
+reportDL <- function(d, dec_point = NULL) {
+    dec_point <- ifelse(is.null(dec_point), 1, dec_point)
     d <- adjustcolnames(d)
-    cat("Miller", round(dl_miller(d$x, d$y)[1], 1), "\n")
-    cat("Vogelsang-Hadrich", round(dl_vogelhad(d$x, d$y)[1], 1), "\n")
-    cat("Hubaux-Vos", round(dl_hubertvos(d$x, d$y)[1], 1), "\n")
+    cat("Miller", round(dl_miller(d$x, d$y)[1],dec_point), "\n")
+    cat("Vogelsang-Hadrich", round(dl_vogelhad(d$x, d$y)[1], dec_point), "\n")
+    cat("Hubaux-Vos", round(dl_hubertvos(d$x, d$y)[1], dec_point), "\n")
 }
 #----------------------------------------------------
