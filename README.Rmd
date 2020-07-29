@@ -3,7 +3,7 @@
 
 ### An introduction to the detlimitr package
 
-The *detlimir* (**det**ection **limit** calculation using **R**) package contains a suite of functions for use with calibration data in analytical chemistry,
+The *detlimir* (**det**ection **limit**s using **R**) package contains a suite of functions for use with calibration data in analytical chemistry,
 
 The detection limit is an important figure of merit in chemical analysis.  It is also known as the lower limit of detection, or LOD (limit of detection), and can be defined as the lowest quantity of a substance that can be distinguished from the absence of that substance (a blank value) with a stated confidence level (generally 99%).
 
@@ -29,5 +29,12 @@ data(mtbe)
 head(mtbe)
 reportDL(mtbe)
 show_limits(mtbe)
+```
+The graph resulting from *show_limits* has generic labels on the plot. This can changed using appropriate *ggplot2* commands. For example,
+
+``` r
+p <- show_limits(mtbe)
+p +
+  ggplot2::xlab(expression(paste("Concentration (ng", " ", "g" ^ {-1}, ")")))
 ```
 
