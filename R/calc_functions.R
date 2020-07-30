@@ -36,7 +36,7 @@ s_y <- function(x, y) {
 #' @param y A vector
 #' @examples
 #' dl_vogelhad(x,y)
-#' @export dls
+#' @export vhdl
 dl_vogelhad <- function(x, y) {
     # Vogelgesang-Hadrich
     n <- length(x)
@@ -46,8 +46,8 @@ dl_vogelhad <- function(x, y) {
         sqrt(1 + 1 / n + mean(x) ^ 2 / sum((x - mean(x)) ^ 2))
     x_crit <- (y_crit - ls[2]) / ls[1]
     x_id <- 2 * x_crit
-    dls <- c(xc = x_crit, xd = x_id)
-    return(dls)
+    vhdl <- c(xc = x_crit, xd = x_id)
+    return(vhdl)
 }
 #
 #' Calculates the detection limit according to Miller & Miller
@@ -55,7 +55,7 @@ dl_vogelhad <- function(x, y) {
 #' @param y A vector
 #' @examples
 #' dl_miller(x,y)
-#' @export dls
+#' @export mmdl
 dl_miller <- function(x, y) {
     #Miller - Miller
     n <- length(x)
@@ -63,9 +63,9 @@ dl_miller <- function(x, y) {
 
     dl <- (3 * s_y(x, y)) / ls[1]
     blank_dl <- (3 * s_y(x, y) + ls[2]) / ls[1]
-    dls <- c(dl = dl,
+    mmdl <- c(dl = dl,
              b_dl = blank_dl)
-    return(dls)
+    return(mmdl)
 }
 
 #' Calculates the detection limit according to Hubert & Vos using iterative calculation
@@ -73,14 +73,14 @@ dl_miller <- function(x, y) {
 #' @param y A vector
 #' @examples
 #' dl_hubertvos(x,y)
-#' @export dl
+#' @export hvdl
 dl_hubertvos <- function(x, y, alpha = NULL, beta = NULL) {
     alpha <- ifelse(is.null(alpha), 0.01, alpha)
     beta <- ifelse(is.null(beta), 0.05, beta)
 
     n <- length(x)
     x.mean <- mean(x)
-    dl <- dl_vogelhad(x, y)[1]
+    hvdl <- dl_vogelhad(x, y)[1]
 
     repeat {
         # Update dl
@@ -89,15 +89,15 @@ dl_hubertvos <- function(x, y, alpha = NULL, beta = NULL) {
                 qt(1 - alpha, n - 2) * sqrt(1 + 1 / n + x.mean ^ 2 / sum((x - x.mean) ^
                                                                              2)) +
                     qt(1 - beta, n - 2) * sqrt(1 + 1 /
-                                                   n + (dl - x.mean) ^ 2 / sum((x - x.mean) ^ 2))
+                                                   n + (hvdl - x.mean) ^ 2 / sum((x - x.mean) ^ 2))
             )
         # Compute relative error as a 2-norm.
-        conv <- sum((new.dl - dl) ^ 2 / dl ^ 2)
+        conv <- sum((new.dl - vdl) ^ 2 / dl ^ 2)
         # Exit test with return() statement
         if (conv < 1e-10)
-            return(dl)
+            return(hvdl)
         # Save interation result
-        dl <- new.dl
+        hvdl <- new.dl
     }
 }
 
