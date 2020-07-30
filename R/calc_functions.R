@@ -8,7 +8,6 @@ adjustcolnames <- function(d) {
     }
     return(d)
 }
-
 #' Used internally for calculating the least square regression coefficients
 #' of model - assumes a linear response
 #' Included for pedagical reasons, and completeness
@@ -30,6 +29,7 @@ s_y <- function(x, y) {
         ls[1] * x + ls[2]   # ls[1]*x + ls[2] = fitted y
     )) ^ 2) / (n - 2)))
 }
+
 #
 #' Calculates the detection limit according to Vogelgesang & Hadrich
 #' @param x A vector
@@ -50,6 +50,7 @@ dl_vogelhad <- function(x, y) {
     VHdl <- c(xc = x_crit, xd = x_id)
     return(VHdl)
 }
+
 #
 #' Calculates the detection limit according to Miller & Miller
 #' @param x A vector
