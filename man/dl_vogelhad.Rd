@@ -11,6 +11,9 @@ dl_vogelhad(x, y)
 
 \item{y}{A vector}
 }
+\value{
+VHdl
+}
 \description{
 Calculates the detection limit according to Vogelgesang & Hadrich
 }

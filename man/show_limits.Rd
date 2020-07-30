@@ -4,14 +4,14 @@
 \alias{show_limits}
 \title{Plots segment of calibration curve showing the position of the different DLs}
 \usage{
-show_limits(dat)
+show_limits(d)
 }
 \arguments{
-\item{dat}{A vector containing x and y}
+\item{d}{A vector containing x and y}
 }
 \description{
 Plots segment of calibration curve showing the position of the different DLs
 }
 \examples{
-show_limits(dat)
+show_limits(d)
 }

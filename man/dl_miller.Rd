@@ -11,6 +11,9 @@ dl_miller(x, y)
 
 \item{y}{A vector}
 }
+\value{
+MMdl
+}
 \description{
 Calculates the detection limit according to Miller & Miller
 }

@@ -11,6 +11,9 @@ dl_hubertvos(x, y, alpha = NULL, beta = NULL)
 
 \item{y}{A vector}
 }
+\value{
+HVdl
+}
 \description{
 Calculates the detection limit according to Hubert & Vos using iterative calculation
 }

@@ -2,16 +2,19 @@
 % Please edit documentation in R/calc_functions.R
 \name{reportDL}
 \alias{reportDL}
-\title{Reports detection limits ()}
+\title{A wrapper function for reporting detection limits}
 \usage{
-reportDL(dat)
+reportDL(d, dec_point = NULL)
 }
 \arguments{
-\item{dat}{A vector containing x and y}
+\item{d}{A vector containing x and y}
+}
+\value{
+
 }
 \description{
-Reports detection limits ()
+A wrapper function for reporting detection limits
 }
 \examples{
-reportDL(dat)
+reportDL(d)
 }
