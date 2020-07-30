@@ -109,6 +109,8 @@ dl_hubertvos <- function(x, y, alpha = NULL, beta = NULL) {
 #' @param d A vector containing x and y
 #' @examples
 #' reportDL(d)
+#' @return
+#' @export
 reportDL <- function(d, dec_point = NULL) {
     dec_point <- ifelse(is.null(dec_point), 1, dec_point)
     d <- adjustcolnames(d)
