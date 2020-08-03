@@ -1,11 +1,11 @@
 #' Plots segment of calibration curve showing the position of the different DLs
 #' @param d A vector containing x and y
 #' @examples
-#' show_limits(d)
+#' plotDL(d)
 #' @export
 #' @importFrom dplyr filter
 #' @importFrom ggplot2 ggplot aes geom_point geom_abline geom_segment xlab ylab annotate
-show_limits <- function(d) {
+plotDL <- function(d) {
   d <- adjustcolnames(d)
   x <- d$x
   y <- d$y

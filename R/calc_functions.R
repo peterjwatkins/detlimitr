@@ -1,18 +1,17 @@
-#' Used internally for formatting the dataframe
-#' Issue if the column names are not 'x' & 'y'
-#'
 adjustcolnames <- function(d) {
+    # Used internally for formatting the dataframe
+    # Issue if the column names are not 'x' & 'y'
     if (colnames(d)[1] != "x") {
         names(d)[1] <- "x"
         names(d)[2] <- "y"
     }
     return(d)
 }
-#' Used internally for calculating the least square regression coefficients
-#' of model - assumes a linear response
-#' Included for pedagical reasons, and completeness
-#'
+
 least_sq_est <- function(x, y) {
+# Used internally for calculating the least square regression coefficients
+# of model - assumes a linear response
+# Included for pedagical reasons, and completeness
     n <- length(x)
     m <- (sum(y * x) - 1 / n * sum(x) * sum(y)) /
         (sum(x ^ 2) - 1 / n * sum(x) ^ 2)
@@ -20,9 +19,10 @@ least_sq_est <- function(x, y) {
     return(c(m = m, c = c))
 }
 
-#' Used internally to calculate residual standard deviation
-#'
+
 s_y <- function(x, y) {
+# Used internally to calculate residual standard deviation
+#
     n <- length(x)
     ls <- least_sq_est(x, y)
     return(sqrt(sum((y - (
@@ -47,7 +47,7 @@ dl_vogelhad <- function(x, y) {
         sqrt(1 + 1 / n + mean(x) ^ 2 / sum((x - mean(x)) ^ 2))
     x_crit <- (y_crit - ls[2]) / ls[1]
     x_id <- 2 * x_crit
-    VHdl <- c(xc = x_crit, xd = x_id)
+    VHdl <- as.numeric(c(xc = x_crit, xd = x_id))
     return(VHdl)
 }
 
@@ -66,8 +66,8 @@ dl_miller <- function(x, y) {
 
     dl_calc <- (3 * s_y(x, y)) / ls[1]
     dl_blank <- (3 * s_y(x, y) + ls[2]) / ls[1]
-    MMdl <- c(dl_c = dl_calc,
-              dl_b = dl_blank)
+    MMdl <- as.numeric(c(dl_c = dl_calc,
+              dl_b = dl_blank))
     return(MMdl)
 }
 
@@ -99,7 +99,7 @@ dl_hubertvos <- function(x, y, alpha = NULL, beta = NULL) {
         conv <- sum((new.dl - HVdl) ^ 2 / HVdl ^ 2)
         # Exit test with return() statement
         if (conv < 1e-10)
-            return(HVdl)
+            return(as.numeric(HVdl))
         # Save interation result
         HVdl <- new.dl
     }
