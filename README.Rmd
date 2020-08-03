@@ -1,9 +1,9 @@
-*detlimir*
+*detlimitr*
 ==========
 
 ### An introduction to the detlimitr package
 
-The *detlimir* (**det**ection **limit**s using **R**) package contains a suite of functions for use with calibration data in analytical chemistry,
+The *detlimitr* (**det**ection **limit**s using **R**) package contains a suite of functions for use with calibration data in analytical chemistry,
 
 The detection limit is an important figure of merit in chemical analysis.  It is also known as the lower limit of detection, or LOD (limit of detection), and can be defined as the lowest quantity of a substance that can be distinguished from the absence of that substance (a blank value) with a stated confidence level (generally 99%).
 
@@ -11,29 +11,29 @@ A broad range of literature is available which discusses detection limits and an
 
 If required, the *detlimiter* package can be downloaded using
 
-``` r
-install.packages("devtools") 
+``` 
+#install.packages("devtools") 
 devtools::install_github("peterjwatkins/detlimitr", force=TRUE)
 
 ```
 
 In this package, the detection limit is calculated using three approaches; i) Miller and Miller, ii) Hubert and Vos and iii) Vogelsang and Hadrich. It assumes that a linear relationship exists between the measured response and standard concentration.
 
-The function *reportDL* returns the calculated detection limits according to the three approaches while *show_limits* shows a segment of the calibration curve, indicating where each of these points are located on the curve.
+The function *reportDL* returns the calculated detection limits according to the three approaches while *plotDL* shows a segment of the calibration curve, indicating where each point lies on the curve.
 
 Some example code:
 
-``` r
+``` {r second} 
 library(detlimitr)
 data(mtbe)
 head(mtbe)
 reportDL(mtbe)
-show_limits(mtbe)
+plotDL(mtbe)
 ```
-The graph resulting from *show_limits* has generic labels on the plot. This can changed using appropriate *ggplot2* commands. For example,
+The graph resulting from *plotDL* has generic labels on the plot. This can changed using appropriate *ggplot2* commands. For example,
 
-``` r
-p <- show_limits(mtbe)
+``` {r third}
+p <- plotDL(mtbe)
 p +
   ggplot2::xlab(expression(paste("Concentration (ng", " ", "g" ^ {-1}, ")")))
 ```
