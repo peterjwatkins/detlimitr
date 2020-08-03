@@ -1,10 +1,10 @@
 #' Calibration data from Table 6, Vogelsang et al (1998).
 #'
-#' A sample dataset containing concentration (microgram per kg) and measured response (area).
+#' A sample dataset of concentration (μg/kg) and measured response (area).
 #'
 #' @format A data frame with 12 rows and 2 variables:
 #' \describe{
-#'   \item{concentration}{microgram/kg}
+#'   \item{concentration}{μg/kg}
 #'   \item{area}{arbitrary units}
 #' }
 #' @usage data(vhtab6)
@@ -12,11 +12,11 @@
 "vhtab6"
 #' Calibration dataset for methyl tert-butyl ether in water using GC-MS.
 #'
-#' A dataset containing concentration (microgram per litre) and measured response (area).
+#' A dataset containing concentration (μg/L) and measured response (area).
 #'
 #' @format A data frame with 18 rows and 2 variables:
 #' \describe{
-#'   \item{concentration}{microgram/L}
+#'   \item{concentration}{μg/L}
 #'   \item{area}{arbitrary units}
 #' }
 #' @usage data(mtbe)
@@ -24,12 +24,12 @@
 "mtbe"
 #' Paraquat calibration data using multiple square wave voltammetry.
 #'
-#' A dataset containing concentration (micromole per litre) and measured response (microamp X -1).
+#' A dataset containing concentration (μmol/L) and measured response (μA X -1).
 #'
 #' @format A data frame with 9 rows and 2 variables:
 #' \describe{
-#'   \item{concentration}{micromole/L}
-#'   \item{area}{microamps (X -1)}
+#'   \item{concentration}{μmol/L}
+#'   \item{area}{μA (X -1)}
 #' }
 #' @usage data(paraquat)
 #' @source {O.B. da Silva and S.A.S. Machado, (2012), Anal. Methods, 4:2348-2354}
