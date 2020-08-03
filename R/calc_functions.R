@@ -1,6 +1,6 @@
 adjustcolnames <- function(d) {
-    # Used internally for formatting the dataframe
-    # Issue if the column names are not 'x' & 'y'
+# Used internally for formatting the dataframe
+# Issue if the column names are not 'x' & 'y'
     if (colnames(d)[1] != "x") {
         names(d)[1] <- "x"
         names(d)[2] <- "y"
@@ -18,7 +18,6 @@ least_sq_est <- function(x, y) {
     c <- 1 / n * sum(y) - m / n * sum(x)
     return(c(m = m, c = c))
 }
-
 
 s_y <- function(x, y) {
 # Used internally to calculate residual standard deviation
@@ -51,7 +50,6 @@ dl_vogelhad <- function(x, y) {
     return(VHdl)
 }
 
-#
 #' Calculates the detection limit according to Miller & Miller
 #' @param x A vector
 #' @param y A vector
