@@ -30,7 +30,7 @@ s_y <- function(x, y) {
 }
 
 #
-#' Calculates the detection limit according to Vogelgesang & Hadrich
+#' Calculates the Vogelgesang & Hadrich detection limit
 #' @param x A vector
 #' @param y A vector
 #' @examples
@@ -50,7 +50,7 @@ dl_vogelhad <- function(x, y) {
     return(VHdl)
 }
 
-#' Calculates the detection limit according to Miller & Miller
+#' Calculates the Miller & Miller detection limit
 #' @param x A vector
 #' @param y A vector
 #' @examples
@@ -69,7 +69,7 @@ dl_miller <- function(x, y) {
     return(MMdl)
 }
 
-#' Calculates the detection limit according to Hubert & Vos using iterative calculation
+#' Calculates the Hubert & Vos detection limit using iterative calculation
 #' @param x A vector
 #' @param y A vector
 #' @examples
