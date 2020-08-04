@@ -29,7 +29,7 @@ summaryDL(mtbe)
 plotDL(mtbe)
 ```
 
-The graph resulting from *plotDL* has generic labels on the plot. This can changed using appropriate *ggplot2* commands. For example,
+The graph resulting from *plotDL* has generic labels on the plot. This can be changed using appropriate *ggplot2* commands. For example,
 
 ``` {r second}
 p <- plotDL(mtbe)
