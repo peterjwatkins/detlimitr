@@ -5,8 +5,8 @@ Version: 0.1.0
 Author: Peter Watkins   
 Maintainer: Peter Watkins <Peter.Watkins@csiro.au>
 Description: A set of functions for estimating detection limits of calibration data.
-    The detection limits are using the approach of Miller & Miller and 
-    Vogelgesang & Hadrich as well as Hubert & Vos.
+    The detection limits are estimated using three approaches; i) Miller & Miller, ii 
+    Vogelgesang & Hädrich and iii) Hubert & Vos (by iteration).
     A linear response is assumed between the measured response and standard solutions.
 License: GPL-3
 Encoding: UTF-8
