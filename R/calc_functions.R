@@ -29,57 +29,40 @@ s_y <- function(x, y) {
     )) ^ 2) / (n - 2)))
 }
 
-#
-#' Calculates the Vogelgesang & Hädrich detection limit
-#' @param x A vector
-#' @param y A vector
-#' @examples
-#' dl_vogelhad(x,y)
-#' @return VHdl
-#' @export
 dl_vogelhad <- function(x, y) {
-    # Vogelgesang-Hädrich
+# Used internally to estimate the detection limit acccording to
+# Vogelgesang & Hädrich
     n <- length(x)
     ls <- least_sq_est(x, y)
     y_crit <-
         ls[2] + s_y(x, y) * qt(0.95, n - 2) *
         sqrt(1 + 1 / n + mean(x) ^ 2 / sum((x - mean(x)) ^ 2))
     x_crit <- (y_crit - ls[2]) / ls[1]
-    x_id <- 2 * x_crit
-    VHdl <- as.numeric(c(xc = x_crit, xd = x_id))
+#   x_id <- 2 * x_crit
+#   VHdl <- as.numeric(c(xc = x_crit, xd = x_id))
+    VHdl <- as.numeric(x_crit)
     return(VHdl)
 }
 
-#' Calculates the Miller & Miller detection limit
-#' @param x A vector
-#' @param y A vector
-#' @examples
-#' dl_miller(x,y)
-#' @return MMdl
-#' @export
 dl_miller <- function(x, y) {
-    #Miller - Miller
+# Used internally to estimate the detection limit acccording to
+# Miller & Miller
     n <- length(x)
     ls <- least_sq_est(x, y)
 
     dl_calc <- (3 * s_y(x, y)) / ls[1]
-    dl_blank <- (3 * s_y(x, y) + ls[2]) / ls[1]
-    MMdl <- as.numeric(c(dl_c = dl_calc,
-              dl_b = dl_blank))
+#    dl_blank <- (3 * s_y(x, y) + ls[2]) / ls[1]
+#    MMdl <- as.numeric(c(dl_c = dl_calc,
+#              dl_b = dl_blank))
+    MMdl <- as.numeric(dl_calc)
     return(MMdl)
 }
 
-#' Calculates the Hubert & Vos detection limit using iterative calculation
-#' @param x A vector
-#' @param y A vector
-#' @examples
-#' dl_hubertvos(x,y)
-#' @return HVdl
-#' @export
 dl_hubertvos <- function(x, y, alpha = NULL, beta = NULL) {
+# Used internally to estimate the detection limit acccording to
+# Hubert & Vos detection limit using iterative calculation
     alpha <- ifelse(is.null(alpha), 0.01, alpha)
     beta <- ifelse(is.null(beta), 0.05, beta)
-
     n <- length(x)
     x.mean <- mean(x)
     HVdl <- dl_vogelhad(x, y)[1]
@@ -106,8 +89,10 @@ dl_hubertvos <- function(x, y, alpha = NULL, beta = NULL) {
 #' Summarises detection limits
 #' @description A generic function summarising the detection limits estimated using three approaches;
 #' i) Miller and Miller, ii) Vogelgesang and Hädrich, and iii) Hubert & Vos.
-#' The first two are directly estimated using \emph{dl_miller} and \emph{dl_vogelhad} while the third is iteratively estimated using \emph{dl_hubertvos}. By default, a single decimal point is shown but can be changed by the user.
-#' @param d A tibble containing x and y, x is the concentration and y is the response.
+#' The first two are directly estimated using internal functions, \emph{dl_miller} and \emph{dl_vogelhad}
+#' while the third is iteratively estimated using \emph{dl_hubertvos}.
+#' By default, a single decimal point is shown but can be changed by the user.
+#' @param d A tibble containing x (concentration) and y (response).
 #' @param dp Number of decimal points
 #' @usage summaryDL(d, dp = 1)
 #' @examples
@@ -119,8 +104,8 @@ dl_hubertvos <- function(x, y, alpha = NULL, beta = NULL) {
 summaryDL <- function(d, dp = NULL) {
     dp <- ifelse(is.null(dp), 1, dp)
     d <- adjustcolnames(d)
-    cat("Miller", round(dl_miller(d$x, d$y)[1],dp), "\n")
-    cat("Vogelsang-Hadrich", round(dl_vogelhad(d$x, d$y)[1], dp), "\n")
-    cat("Hubaux-Vos", round(dl_hubertvos(d$x, d$y)[1], dp), "\n")
+    cat("Miller", round(dl_miller(d$x, d$y),dp), "\n")
+    cat("Vogelsang-Hadrich", round(dl_vogelhad(d$x, d$y), dp), "\n")
+    cat("Hubaux-Vos", round(dl_hubertvos(d$x, d$y), dp), "\n")
 }
 #----------------------------------------------------

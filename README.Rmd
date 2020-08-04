@@ -27,7 +27,7 @@ Some example code:
 library(detlimitr)
 data(mtbe)
 head(mtbe)
-reportDL(mtbe)
+summaryDL(mtbe)
 plotDL(mtbe)
 ```
 
