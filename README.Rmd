@@ -15,7 +15,7 @@ devtools::install_github("peterjwatkins/detlimitr", force=TRUE)
 
 ```
 
-In this package, the detection limit is calculated using three approaches; i) Miller and Miller, ii) Hubert and Vos and iii) Vogelsang and Hadrich. It assumes that a linear relationship exists between the measured response and standard concentration.
+In this package, the detection limit is calculated using three approaches; i) Miller and Miller, ii) Vogelsang and Hädrich and iii) Hubert and Vos. Note that references are listed below, and that a linear relationship is assumed between the measured response and standard concentration.
 
 The function *reportDL* returns the calculated detection limits according to the three approaches while *plotDL* shows a segment of the calibration curve, indicating where each point lies on the curve.
 
@@ -36,4 +36,12 @@ p <- plotDL(mtbe)
 p +
   ggplot2::xlab(expression(paste("Concentration (ng", " ", "g" ^ {-1}, ")")))
 ```
+
+**References**
+
+i) J.C. Miller and J.N. Miller (1993), "Statistics for Analytical Chemistry", 3rd ed., Prentice-Hall.
+
+ii) J. Vogelgesang and J. Hädrich (1998), Accred. Qual. Assur., 3:242-255.
+
+iii) A. Hubaux and G. Vos (1970), Anal. Chem., 42:849-855 & D.T. O'Neill, E.A. Rochette and P.J. Ramsay, (2002), Anal. Chem., 74:5907-5911
 
