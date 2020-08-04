@@ -1,7 +1,13 @@
-#' Plots segment of calibration curve showing the position of the different DLs
-#' @param d A vector containing x and y
+#
+#' Plots segment of calibration curve showing the estimated limits.
+#' @param d A tibble containing x (concentration) and y (response)
+#' @usage plotDL(d)
 #' @examples
-#' plotDL(d)
+#' data(mtbe)
+#' plotDL(mtbe)
+#' p <- plotDL(mtbe)
+#' p + ## add additional labels
+#'   ggplot2::xlab(expression(paste("Concentration (ng", " ", "g" ^ {-1}, ")")))
 #' @export
 #' @importFrom dplyr filter
 #' @importFrom ggplot2 ggplot aes geom_point geom_abline geom_segment xlab ylab annotate
