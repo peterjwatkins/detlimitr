@@ -30,7 +30,7 @@ s_y <- function(x, y) {
 }
 
 #
-#' Calculates the Vogelgesang & Hadrich detection limit
+#' Calculates the Vogelgesang & Hädrich detection limit
 #' @param x A vector
 #' @param y A vector
 #' @examples
@@ -38,7 +38,7 @@ s_y <- function(x, y) {
 #' @return VHdl
 #' @export
 dl_vogelhad <- function(x, y) {
-    # Vogelgesang-Hadrich
+    # Vogelgesang-Hädrich
     n <- length(x)
     ls <- least_sq_est(x, y)
     y_crit <-
@@ -103,17 +103,24 @@ dl_hubertvos <- function(x, y, alpha = NULL, beta = NULL) {
     }
 }
 
-#' A wrapper function for reporting detection limits
-#' @param d A vector containing x and y
+#' Summarises detection limits
+#' @description A generic function summarising the detection limits estimated using three approaches;
+#' i) Miller and Miller, ii) Vogelgesang and Hädrich, and iii) Hubert & Vos.
+#' The first two are directly estimated using \emph{dl_miller} and \emph{dl_vogelhad} while the third is iteratively estimated using \emph{dl_hubertvos}. By default, a single decimal point is shown but can be changed by the user.
+#' @param d A tibble containing x and y, x is the concentration and y is the response.
+#' @param dp Number of decimal points
+#' @usage summaryDL(d, dp = 1)
 #' @examples
-#' reportDL(d)
+#' data(mtbe)
+#' summaryDL(mtbe) 	    #single decimal point
+#' summaryDL(mtbe, 2)	#two decimal points
 #' @return
 #' @export
-reportDL <- function(d, dec_point = NULL) {
-    dec_point <- ifelse(is.null(dec_point), 1, dec_point)
+summaryDL <- function(d, dp = NULL) {
+    dp <- ifelse(is.null(dp), 1, dp)
     d <- adjustcolnames(d)
-    cat("Miller", round(dl_miller(d$x, d$y)[1],dec_point), "\n")
-    cat("Vogelsang-Hadrich", round(dl_vogelhad(d$x, d$y)[1], dec_point), "\n")
-    cat("Hubaux-Vos", round(dl_hubertvos(d$x, d$y)[1], dec_point), "\n")
+    cat("Miller", round(dl_miller(d$x, d$y)[1],dp), "\n")
+    cat("Vogelsang-Hadrich", round(dl_vogelhad(d$x, d$y)[1], dp), "\n")
+    cat("Hubaux-Vos", round(dl_hubertvos(d$x, d$y)[1], dp), "\n")
 }
 #----------------------------------------------------

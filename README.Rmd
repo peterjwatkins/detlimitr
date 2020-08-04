@@ -23,16 +23,17 @@ The function *reportDL* returns the calculated detection limits according to the
 
 Some example code:
 
-``` {r second} 
+``` {r first} 
 library(detlimitr)
 data(mtbe)
 head(mtbe)
 reportDL(mtbe)
 plotDL(mtbe)
 ```
+
 The graph resulting from *plotDL* has generic labels on the plot. This can changed using appropriate *ggplot2* commands. For example,
 
-``` {r third}
+``` {r second}
 p <- plotDL(mtbe)
 p +
   ggplot2::xlab(expression(paste("Concentration (ng", " ", "g" ^ {-1}, ")")))
