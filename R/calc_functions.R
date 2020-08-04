@@ -93,7 +93,7 @@ dl_hubertvos <- function(x, y, alpha = NULL, beta = NULL) {
 #' i) Miller and Miller, ii) Vogelgesang and Hädrich, and iii) Hubert & Vos.
 #' The first two DLs are directly estimated using internal functions, \emph{dl_miller} and \emph{dl_vogelhad}
 #' while the third DL is estimated iteratively using \emph{dl_hubertvos}.
-#' By default, a single decimal point is shown but can be changed by the user.
+#' By default, a single decimal point is shown but this can be changed by the user.
 #' @param d A tibble containing x (concentration) and y (response).
 #' @param dp Number of decimal points
 #' @usage summaryDL(d, dp = 1)
@@ -107,7 +107,7 @@ dl_hubertvos <- function(x, y, alpha = NULL, beta = NULL) {
 #' @examples
 #' data(mtbe)
 #' summaryDL(mtbe) 	    #single decimal point
-#' summaryDL(mtbe, 2)	#two decimal points
+#' summaryDL(mtbe, 3)	#three decimal points
 #' @return
 #' @export
 summaryDL <- function(d, dp = NULL) {
