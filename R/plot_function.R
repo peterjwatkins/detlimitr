@@ -1,5 +1,4 @@
-#
-#' Plots segment of calibration curve showing the estimated limits.
+##' Plots segment of calibration curve showing the estimated limits.
 #' @param d A tibble containing x (concentration) and y (response)
 #' @usage plotDL(d)
 #' @examples
@@ -20,14 +19,11 @@ plotDL <- function(d) {
   xm <- dl_miller(x, y)[1]
   xv <- dl_vogelhad(x, y)[1]
   xh <- dl_hubertvos(x, y)[1]
-
   ym <- model[1] * xm + model[2]
   yv <- model[1] * xv + model[2]
   yh <- model[1] * xh + model[2]
-
   xmax <- max(xm, xv, xh)
   ymax <- model[1] * xmax + model[2]
-
   d_mod <- dplyr::filter(d, x <= xmax)
   p <-
     ggplot2::ggplot(d_mod, ggplot2::aes(x, y)) +
@@ -110,4 +106,3 @@ plotDL <- function(d) {
     )
   return(p)
 }
-

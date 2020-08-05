@@ -7,7 +7,6 @@ adjustcolnames <- function(d) {
     }
     return(d)
 }
-
 least_sq_est <- function(x, y) {
 # Used internally for calculating the least square regression coefficients
 # of model - assumes a linear response
@@ -18,7 +17,6 @@ least_sq_est <- function(x, y) {
     c <- 1 / n * sum(y) - m / n * sum(x)
     return(c(m = m, c = c))
 }
-
 s_y <- function(x, y) {
 # Used internally to calculate residual standard deviation
 #
@@ -28,7 +26,6 @@ s_y <- function(x, y) {
         ls[1] * x + ls[2]   # ls[1]*x + ls[2] = fitted y
     )) ^ 2) / (n - 2)))
 }
-
 dl_vogelhad <- function(x, y) {
 # Used internally to estimate the detection limit acccording to
 # Vogelgesang & Hädrich
@@ -44,13 +41,11 @@ dl_vogelhad <- function(x, y) {
 #   Extra code if needed
 #   x_id <- 2 * x_crit
 #   VHdl <- as.numeric(c(xc = x_crit, xd = x_id))
-
 dl_miller <- function(x, y) {
 # Used internally to estimate the detection limit acccording to
 # Miller & Miller
     n <- length(x)
     ls <- least_sq_est(x, y)
-
     dl_calc <- (3 * s_y(x, y)) / ls[1]
     MMdl <- as.numeric(dl_calc)
     return(MMdl)
@@ -59,7 +54,6 @@ dl_miller <- function(x, y) {
 #    dl_blank <- (3 * s_y(x, y) + ls[2]) / ls[1]
 #    MMdl <- as.numeric(c(dl_c = dl_calc,
 #              dl_b = dl_blank))
-
 dl_hubertvos <- function(x, y, alpha = NULL, beta = NULL) {
 # Used internally to estimate the detection limit acccording to
 # Hubert & Vos detection limit using iterative calculation
@@ -68,7 +62,6 @@ dl_hubertvos <- function(x, y, alpha = NULL, beta = NULL) {
     n <- length(x)
     x.mean <- mean(x)
     HVdl <- dl_vogelhad(x, y)
-
     repeat {
         # Update dl
         new.dl <-
@@ -87,7 +80,6 @@ dl_hubertvos <- function(x, y, alpha = NULL, beta = NULL) {
         HVdl <- new.dl
     }
 }
-
 #' Summarises detection limits
 #' @description A generic function summarising the detection limits (DLs) estimated using three approaches;
 #' i) Miller and Miller, ii) Vogelgesang and Hädrich, and iii) Hubert & Vos.

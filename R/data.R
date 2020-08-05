@@ -10,6 +10,7 @@
 #' @usage data(vhtab6)
 #' @source {J. Vogelgesang and J. Hädrich (1998), Accred. Qual. Assur., 3:242-255.}
 "vhtab6"
+
 #' Calibration dataset for methyl tert-butyl ether in water using GC-MS.
 #'
 #' A dataset containing concentration (μg/L) and measured response (area).
@@ -22,6 +23,7 @@
 #' @usage data(mtbe)
 #' @source {D.T. O'Neill, E.A. Rochette and P.J. Ramsay, (2002), Anal. Chem., 74:5907-5911.}
 "mtbe"
+
 #' Paraquat calibration data using multiple square wave voltammetry.
 #'
 #' A dataset containing concentration (μmol/L) and measured response (μA X -1).
