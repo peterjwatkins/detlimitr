@@ -13,15 +13,12 @@ iii) A. Hubaux and G. Vos (1970), Anal. Chem., 42:849-855
 }
 }
 \usage{
-summaryDL(d, dp = 1)
+summaryDL(d, dp = NULL)
 }
 \arguments{
 \item{d}{A tibble containing x (concentration) and y (response).}
 
 \item{dp}{Number of decimal points}
-}
-\value{
-
 }
 \description{
 A generic function summarising the detection limits (DLs) estimated using three approaches;

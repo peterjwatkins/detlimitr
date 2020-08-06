@@ -7,8 +7,8 @@
 \format{
 A data frame with 18 rows and 2 variables:
 \describe{
-  \item{concentration}{μg/L}
-  \item{area}{arbitrary units}
+  \item{x}{μg/L}
+  \item{y}{arbitrary units}
 }
 }
 \source{
@@ -18,6 +18,6 @@ A data frame with 18 rows and 2 variables:
 data(mtbe)
 }
 \description{
-A dataset containing concentration (μg/L) and measured response (area).
+A dataset containing concentration (μg/L, x) and measured response (area, y).
 }
 \keyword{datasets}

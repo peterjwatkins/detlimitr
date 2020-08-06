@@ -7,8 +7,8 @@
 \format{
 A data frame with 9 rows and 2 variables:
 \describe{
-  \item{concentration}{μmol/L}
-  \item{area}{μA (X -1)}
+  \item{x}{μmol/L}
+  \item{y}{μA (X -1)}
 }
 }
 \source{
@@ -18,6 +18,6 @@ A data frame with 9 rows and 2 variables:
 data(paraquat)
 }
 \description{
-A dataset containing concentration (μmol/L) and measured response (μA X -1).
+A dataset containing concentration (μmol/L, x) and measured response (μA X -1, y).
 }
 \keyword{datasets}

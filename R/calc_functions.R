@@ -26,21 +26,7 @@ s_y <- function(x, y) {
         ls[1] * x + ls[2]   # ls[1]*x + ls[2] = fitted y
     )) ^ 2) / (n - 2)))
 }
-dl_vogelhad <- function(x, y) {
-# Used internally to estimate the detection limit acccording to
-# Vogelgesang & Hädrich
-    n <- length(x)
-    ls <- least_sq_est(x, y)
-    y_crit <-
-        ls[2] + s_y(x, y) * qt(0.95, n - 2) *
-        sqrt(1 + 1 / n + mean(x) ^ 2 / sum((x - mean(x)) ^ 2))
-    x_crit <- (y_crit - ls[2]) / ls[1]
-    VHdl <- as.numeric(x_crit)
-    return(VHdl)
-}
-#   Extra code if needed
-#   x_id <- 2 * x_crit
-#   VHdl <- as.numeric(c(xc = x_crit, xd = x_id))
+
 dl_miller <- function(x, y) {
 # Used internally to estimate the detection limit acccording to
 # Miller & Miller
@@ -54,6 +40,25 @@ dl_miller <- function(x, y) {
 #    dl_blank <- (3 * s_y(x, y) + ls[2]) / ls[1]
 #    MMdl <- as.numeric(c(dl_c = dl_calc,
 #              dl_b = dl_blank))
+
+#' @importFrom stats qt
+dl_vogelhad <- function(x, y) {
+    # Used internally to estimate the detection limit acccording to
+    # Vogelgesang & Hädrich
+    n <- length(x)
+    ls <- least_sq_est(x, y)
+    y_crit <-
+        ls[2] + s_y(x, y) * qt(0.95, n - 2) *
+        sqrt(1 + 1 / n + mean(x) ^ 2 / sum((x - mean(x)) ^ 2))
+    x_crit <- (y_crit - ls[2]) / ls[1]
+    VHdl <- as.numeric(x_crit)
+    return(VHdl)
+}
+#   Extra code if needed
+#   x_id <- 2 * x_crit
+#   VHdl <- as.numeric(c(xc = x_crit, xd = x_id))
+
+#' @importFrom stats qt
 dl_hubertvos <- function(x, y, alpha = NULL, beta = NULL) {
 # Used internally to estimate the detection limit acccording to
 # Hubert & Vos detection limit using iterative calculation
@@ -66,9 +71,9 @@ dl_hubertvos <- function(x, y, alpha = NULL, beta = NULL) {
         # Update dl
         new.dl <-
             s_y(x, y) / least_sq_est(x, y)[1] * (
-                qt(1 - alpha, n - 2) * sqrt(1 + 1 / n + x.mean ^ 2 / sum((x - x.mean) ^
+                stats::qt(1 - alpha, n - 2) * sqrt(1 + 1 / n + x.mean ^ 2 / sum((x - x.mean) ^
                                                                              2)) +
-                    qt(1 - beta, n - 2) * sqrt(1 + 1 /
+                    stats::qt(1 - beta, n - 2) * sqrt(1 + 1 /
                                                    n + (HVdl - x.mean) ^ 2 / sum((x - x.mean) ^ 2))
             )
         # Compute relative error as a 2-norm.

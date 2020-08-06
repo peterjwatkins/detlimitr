@@ -13,12 +13,12 @@
 
 #' Calibration dataset for methyl tert-butyl ether in water using GC-MS.
 #'
-#' A dataset containing concentration (μg/L) and measured response (area).
+#' A dataset containing concentration (μg/L, x) and measured response (area, y).
 #'
 #' @format A data frame with 18 rows and 2 variables:
 #' \describe{
-#'   \item{concentration}{μg/L}
-#'   \item{area}{arbitrary units}
+#'   \item{x}{μg/L}
+#'   \item{y}{arbitrary units}
 #' }
 #' @usage data(mtbe)
 #' @source {D.T. O'Neill, E.A. Rochette and P.J. Ramsay, (2002), Anal. Chem., 74:5907-5911.}
@@ -26,12 +26,12 @@
 
 #' Paraquat calibration data using multiple square wave voltammetry.
 #'
-#' A dataset containing concentration (μmol/L) and measured response (μA X -1).
+#' A dataset containing concentration (μmol/L, x) and measured response (μA X -1, y).
 #'
 #' @format A data frame with 9 rows and 2 variables:
 #' \describe{
-#'   \item{concentration}{μmol/L}
-#'   \item{area}{μA (X -1)}
+#'   \item{x}{μmol/L}
+#'   \item{y}{μA (X -1)}
 #' }
 #' @usage data(paraquat)
 #' @source {O.B. da Silva and S.A.S. Machado, (2012), Anal. Methods, 4:2348-2354}
