@@ -23,7 +23,6 @@ tabulateDL <- function(d, dp = NULL) {
   DL_tbl <-
     dplyr::tibble(
       Method = c(
-#        "Vogelsang - H&auml;drich",
         "Vogelsang - H\u00E4drich",
         "Miller - Miller",
         "chemCal",
