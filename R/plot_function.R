@@ -7,8 +7,9 @@
 #' p <- plotDL(mtbe)
 #' p + ## add additional labels
 #'   ggplot2::xlab(expression(paste("Concentration (ng", " ", "g" ^ {-1}, ")")))
+#' @importFrom dplyr filter
+#' @importFrom ggplot2 ggplot aes geom_point geom_abline geom_segment xlab ylab annotate
 #' @export
-
 plotDL <- function(d) {
   d <- adjustcolnames(d)
   x <- d$x
