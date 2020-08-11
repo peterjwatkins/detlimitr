@@ -8,21 +8,23 @@
 #' p + ## add additional labels
 #'   ggplot2::xlab(expression(paste("Concentration (ng", " ", "g" ^ {-1}, ")")))
 #' @export
-#' @importFrom dplyr filter
-#' @importFrom ggplot2 ggplot aes geom_point geom_abline geom_segment xlab ylab annotate
+
 plotDL <- function(d) {
   d <- adjustcolnames(d)
   x <- d$x
   y <- d$y
+  l <- chemCal::lod(lm(y~x))
   model <- least_sq_est(x, y)
 
   xm <- dl_miller(x, y)[1]
   xv <- dl_vogelhad(x, y)[1]
   xh <- dl_hubertvos(x, y)[1]
+  xc <- l$x
   ym <- model[1] * xm + model[2]
   yv <- model[1] * xv + model[2]
   yh <- model[1] * xh + model[2]
-  xmax <- max(xm, xv, xh)
+  yc <- model[1] * xc + model[2]
+  xmax <- max(xm, xv, xh, xc)
   ymax <- model[1] * xmax + model[2]
   d_mod <- dplyr::filter(d, x <= xmax)
   p <-
@@ -81,10 +83,27 @@ plotDL <- function(d) {
     ),
     colour = "brown",
     linetype = "dashed") +
+    ggplot2::geom_segment(ggplot2::aes(
+      x = 0,
+      y = yc,
+      xend = xc,
+      yend = yc
+    ),
+    colour = "black",
+    linetype = "dashed") +
+    ggplot2::geom_segment(ggplot2::aes(
+      x = xc,
+      y = yc,
+      xend = xc,
+      yend = 0
+    ),
+    colour = "black",
+    linetype = "dashed") +
     ggplot2::xlab("Concentration") +
     ggplot2::ylab("Response (AU)") +
     ggplot2::annotate(
       "text",
+#      family="Times",
       x = xv,
       y = 0,
       parse = TRUE,
@@ -103,6 +122,13 @@ plotDL <- function(d) {
       y = 0,
       parse = TRUE,
       label = as.character(expression(italic("x")[Hubaux - Vos]))
+    ) +
+    ggplot2::annotate(
+      "text",
+      x = xc,
+      y = 0,
+      parse = TRUE,
+      label = as.character(expression(italic("x")[chemCal]))
     )
   return(p)
 }

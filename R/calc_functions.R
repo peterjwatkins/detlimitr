@@ -86,20 +86,22 @@ dl_hubertvos <- function(x, y, alpha = NULL, beta = NULL) {
     }
 }
 #' Summarises detection limits
-#' @description A generic function summarising the detection limits (DLs) estimated using three approaches;
-#' i) Miller and Miller, ii) Vogelgesang and Hädrich, and iii) Hubert & Vos.
+#' @description A generic function summarising the detection limits (DLs) estimated using four approaches;
+#' i) Miller and Miller, ii) Vogelgesang and Hädrich, iii) Hubert & Vos, and iv) the R \emph{chemCal} package.
 #' The first two DLs are directly estimated using internal functions, \emph{dl_miller} and \emph{dl_vogelhad}
 #' while the third DL is estimated iteratively using \emph{dl_hubertvos}.
 #' By default, a single decimal point is shown but this can be changed by the user.
 #' @param d A tibble containing x (concentration) and y (response).
 #' @param dp Number of decimal points
-#' @usage summaryDL(d, dp = 1)
+#' @usage summaryDL(d, dp = NULL)
 #' @source {
 #' i) J.C. Miller and J.N. Miller (1993), "Statistics for Analytical Chemistry",
 #' 3rd ed., Prentice-Hall.
 #' ii) J. Vogelgesang and J. Hädrich (1998), Accred. Qual. Assur., 3:242-255.
 #' iii) A. Hubaux and G. Vos (1970), Anal. Chem., 42:849-855
 #' & D.T. O'Neill, E.A. Rochette and P.J. Ramsay, (2002), Anal. Chem., 74:5907-5911
+#' iv) J. Ranke, (2018), chemCal: Calibration Functions for Analytical Chemistry,
+#' https://CRAN.R-project.org/package=chemCal
 #' }
 #' @examples
 #' data(mtbe)
@@ -112,6 +114,7 @@ summaryDL <- function(d, dp = NULL) {
     d <- adjustcolnames(d)
     cat("Miller", round(dl_miller(d$x, d$y),dp), "\n")
     cat("Vogelsang-Hadrich", round(dl_vogelhad(d$x, d$y), dp), "\n")
+    cat("chemCal", round(chemCal::lod((lm(y ~ x, data = d)))$x,dp),"\n")
     cat("Hubaux-Vos", round(dl_hubertvos(d$x, d$y), dp), "\n")
 }
 #----------------------------------------------------

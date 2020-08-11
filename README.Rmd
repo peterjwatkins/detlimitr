@@ -15,9 +15,9 @@ devtools::install_github("peterjwatkins/detlimitr", force=TRUE)
 
 ```
 
-In this package, the detection limit is calculated using three approaches; i) Miller and Miller, ii) Vogelsang and Hädrich and iii) Hubert and Vos. Note that references are listed below, and that a linear relationship is assumed between the measured response and standard concentration.
+In this package, the detection limit is calculated using three approaches; i) Miller and Miller, ii) Vogelsang and Hädrich, iii) Hubert and Vos, and iv) the R chemCal package. Note that references are listed below, and that a linear relationship is assumed between the measured response and standard concentration.
 
-The function *reportDL* returns the calculated detection limits according to the three approaches while *plotDL* shows a segment of the calibration curve, indicating where each point lies on the curve.
+The function *reportDL* returns the calculated detection limits according to the three approaches while *plotDL* shows a segment of the calibration curve, indicating where each point lies on the curve. The function *tabulateDL* summarises the data in a tabular format.
 
 Some example code:
 
@@ -26,6 +26,7 @@ library(detlimitr)
 data(mtbe)
 head(mtbe)
 summaryDL(mtbe)
+#tabulateDL(mtbe)
 plotDL(mtbe)
 ```
 
@@ -45,3 +46,4 @@ ii) J. Vogelgesang and J. Hädrich (1998), Accred. Qual. Assur., 3:242-255.
 
 iii) A. Hubaux and G. Vos (1970), Anal. Chem., 42:849-855 & D.T. O'Neill, E.A. Rochette and P.J. Ramsay, (2002), Anal. Chem., 74:5907-5911
 
+iv) J. Ranke (2018), chemCal: Calibration Functions for Analytical Chemistry, https://CRAN.R-project.org/package=chemCal

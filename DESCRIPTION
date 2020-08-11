@@ -14,7 +14,9 @@ LazyData: true
 RoxygenNote: 7.1.1
 Imports:
     dplyr,
-    ggplot2
+    ggplot2,
+    chemCal,
+    gt
 Suggests: 
     knitr,
     rmarkdown,
