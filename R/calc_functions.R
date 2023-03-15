@@ -100,7 +100,7 @@ dl_power <- function(x, y) {
   return(pwrdl)
 }
 
-
+#--------------- Main detection limit function----------------------------------
 #' Summarises detection limits
 #' @description A generic function summarising the detection limits (DLs) according
 #' to linear, quadratic or power regression. For linear regression, the DLs are
