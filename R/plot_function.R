@@ -104,7 +104,6 @@ plotDL <- function(d) {
     ggplot2::ylab("Response (AU)") +
     ggplot2::annotate(
       "text",
-#      family="Times",
       x = xv,
       y = 0,
       parse = TRUE,
