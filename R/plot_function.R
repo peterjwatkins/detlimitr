@@ -10,7 +10,7 @@
 #' @importFrom dplyr filter
 #' @importFrom ggplot2 ggplot aes geom_point geom_abline geom_segment xlab ylab annotate
 #' @export
-plotDL <- function(d) {
+plotlinDL <- function(d) {
   d <- adjustcolnames(d)
   x <- d$x
   y <- d$y

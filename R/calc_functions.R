@@ -1,32 +1,4 @@
-adjustcolnames <- function(d) {
-# Used internally for formatting the dataframe
-# Issue if the column names are not 'x' & 'y'
-    if (colnames(d)[1] != "x") {
-        names(d)[1] <- "x"
-        names(d)[2] <- "y"
-    }
-    return(d)
-}
-least_sq_est <- function(x, y) {
-# Used internally for calculating the least square regression coefficients
-# of model - assumes a linear response
-# Included for pedagical reasons, and completeness
-    n <- length(x)
-    m <- (sum(y * x) - 1 / n * sum(x) * sum(y)) /
-        (sum(x ^ 2) - 1 / n * sum(x) ^ 2)
-    c <- 1 / n * sum(y) - m / n * sum(x)
-    return(c(m = m, c = c))
-}
-s_y <- function(x, y) {
-# Used internally to calculate residual standard deviation
-#
-    n <- length(x)
-    ls <- least_sq_est(x, y)
-    return(sqrt(sum((y - (
-        ls[1] * x + ls[2]   # ls[1]*x + ls[2] = fitted y
-    )) ^ 2) / (n - 2)))
-}
-
+#------------------------ Linear detection limits ------------------------------
 dl_miller <- function(x, y) {
 # Used internally to estimate the detection limit acccording to
 # Miller & Miller
@@ -85,15 +57,67 @@ dl_hubertvos <- function(x, y, alpha = NULL, beta = NULL) {
         HVdl <- new.dl
     }
 }
+
+#--- Wrapper function for 'linear regression' functions
+dl_linear <- function(x, y, dp) {
+  dp <- ifelse(is.null(dp), 1, dp)
+  cat("Miller", round(dl_miller(x, y), dp), "\n")
+  cat("Vogelsang-Hadrich", round(dl_vogelhad(x, y), dp), "\n")
+  cat("chemCal", round(chemCal::lod((lm(
+    y ~ x
+  )))$x, dp), "\n")
+  cat("Hubaux-Vos", round(dl_hubertvos(x, y), dp), "\n")
+}
+#--------------  Quadratic regression calculation limits -----------------------
+dl_quad <- function(x, y) {
+  model <- lm(y ~ x + I(x ^ 2))
+  x_range <- as.data.frame(x)
+  pred_model <-
+    predict(model, newdata = x_range, interval = "prediction")
+
+  ###
+  # Find x on the 'lo' curve which equals the intercept on 'hi'
+  #
+  # c_hi = c_lo + a_lo*x + b_lo*x^2
+  # b_lo*x^2 + a_lo*x + (c_lo - c_hi) = 0
+  b_lwr <- quad_beta(x, pred_model[, 2])
+  b_upr <- quad_beta(x, pred_model[, 3])
+
+  qdl <-
+    quad_solver(b_lwr[3, 1], b_lwr[2, 1], b_lwr[1, 1] - b_upr[1, 1])
+
+  return(qdl)
+}
+
+#-------------- Power regression calculation limits ----------------------------
+dl_power <- function(x, y) {
+  dt <- calc_power(x, y)
+  co <- upr_lwr_pwr_coefs(dt)
+
+  f <- function(x)
+    co[2, 2] * x ^ co[3, 2] + (co[1, 1] - co[1, 2])
+  pwrdl <- uniroot(f, c(0, max(x)))$root
+  return(pwrdl)
+}
+
+
 #' Summarises detection limits
-#' @description A generic function summarising the detection limits (DLs) estimated using four approaches;
-#' i) Miller and Miller, ii) Vogelgesang and Hädrich, iii) Hubert & Vos, and iv) the R \emph{chemCal} package.
-#' The first two DLs are directly estimated using internal functions, \emph{dl_miller} and \emph{dl_vogelhad}
+#' @description A generic function summarising the detection limits (DLs) according
+#' to linear, quadratic or power regression. For linear regression, the DLs are
+#' estimated using four approaches;i) Miller and Miller, ii) Vogelgesang and Hädrich,
+#' iii) Hubert & Vos, and iv) the R \emph{chemCal} package. The first two DLs are
+#' directly estimated using internal functions, \emph{dl_miller} and \emph{dl_vogelhad}
 #' while the third DL is estimated iteratively using \emph{dl_hubertvos}.
-#' By default, a single decimal point is shown but this can be changed by the user.
+#' The default regression is assumed to be linear. However, the DLs can also be
+#' estimated for either a quadratic ("q") or power ("p") regression. The user is advised
+#' though to verify the best regression approach by assessment of the residual
+#' plots - see \emph{resid_plot} for further details.
+#'
+#' The default number of single decimal point is 1 but this can be changed by the user.
 #' @param d A tibble containing x (concentration) and y (response).
+#' @param model_type for regression: (l)inear, (q)uadratic or (p)ower.
 #' @param dp Number of decimal points
-#' @usage summaryDL(d, dp = NULL)
+#' @usage summaryDL(d, model_type = NULL, dp = NULL)
 #' @source {
 #' i) J.C. Miller and J.N. Miller (1993), "Statistics for Analytical Chemistry",
 #' 3rd ed., Prentice-Hall.
@@ -105,16 +129,31 @@ dl_hubertvos <- function(x, y, alpha = NULL, beta = NULL) {
 #' }
 #' @examples
 #' data(mtbe)
-#' summaryDL(mtbe) 	    #single decimal point
-#' summaryDL(mtbe, 3)	#three decimal points
+#' calcDL(mtbe) 	  #single decimal point, with default to linear regression
+#' calcDL(mtbe, 3)	#three decimal points
 #' @return
 #' @export
-summaryDL <- function(d, dp = NULL) {
-    dp <- ifelse(is.null(dp), 1, dp)
-    d <- adjustcolnames(d)
-    cat("Miller", round(dl_miller(d$x, d$y),dp), "\n")
-    cat("Vogelsang-Hadrich", round(dl_vogelhad(d$x, d$y), dp), "\n")
-    cat("chemCal", round(chemCal::lod((lm(y ~ x, data = d)))$x,dp),"\n")
-    cat("Hubaux-Vos", round(dl_hubertvos(d$x, d$y), dp), "\n")
+calcDL <- function(d, model_type = NULL, dp = NULL) {
+  d <- adjustdf(d)
+  dp <- ifelse(is.null(dp), 1, dp)
+
+  model_type <- ifelse(is.null(model_type), "l", model_type)
+
+  if (is.numeric(model_type))
+    message("Model type is numeric: use 'dp =' to set number of points")
+  else
+    if (!is.character(model_type))
+      message("Model type is not known - ('l')inear/('q')uadratic/('p')ower")
+  else {
+    model_type <- set_model(model_type)
+    switch(
+      model_type,
+      "l" = dl_linear(d$x, d$y, dp),
+      "q" = cat("Vogelsang-Hadrich", round(dl_quad(d$x, d$y), dp), "\n"),
+      "p" = cat("Vogelsang-Hadrich", round(dl_power(d$x, d$y), dp), "\n"),
+      message("Check model type: ('l')inear/('q')uadratic/('p')ower")
+    )
+  }
 }
+
 #----------------------------------------------------
