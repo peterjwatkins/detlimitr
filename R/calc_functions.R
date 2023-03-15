@@ -117,7 +117,7 @@ dl_power <- function(x, y) {
 #' @param d A tibble containing x (concentration) and y (response).
 #' @param model_type for regression: (l)inear, (q)uadratic or (p)ower.
 #' @param dp Number of decimal points
-#' @usage summaryDL(d, model_type = NULL, dp = NULL)
+#' @usage calcDL(d, model_type = NULL, dp = NULL)
 #' @source {
 #' i) J.C. Miller and J.N. Miller (1993), "Statistics for Analytical Chemistry",
 #' 3rd ed., Prentice-Hall.
