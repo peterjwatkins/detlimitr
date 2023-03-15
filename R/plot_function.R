@@ -1,5 +1,6 @@
 
 
+
 #----------------------------------
 #   Original linear plot
 #
@@ -19,7 +20,7 @@ plotlinDL <- function(d) {
   d <- adjustcolnames(d)
   x <- d$x
   y <- d$y
-  l <- chemCal::lod(lm(y~x))
+  l <- chemCal::lod(lm(y ~ x))
   model <- least_sq_est(x, y)
 
   xm <- dl_miller(x, y)[1]
@@ -41,70 +42,86 @@ plotlinDL <- function(d) {
                          linetype = "dotted") +
     ggplot2::xlim(c(0, 1.2 * xmax)) +
     ggplot2::ylim(c(0, 1.2 * ymax)) +
-    ggplot2::geom_segment(ggplot2::aes(
-      x = 0,
-      y = yv,
-      xend = xv,
-      yend = yv
-    ),
-    colour = "darkgreen",
-    linetype = "dashed") +
-    ggplot2::geom_segment(ggplot2::aes(
-      x = xv,
-      y = yv,
-      xend = xv,
-      yend = 0
-    ),
-    colour = "darkgreen",
-    linetype = "dashed") +
-    ggplot2::geom_segment(ggplot2::aes(
-      x = 0,
-      y = ym,
-      xend = xm,
-      yend = ym
-    ),
-    colour = "blue",
-    linetype = "dashed") +
-    ggplot2::geom_segment(ggplot2::aes(
-      x = xm,
-      y = ym,
-      xend = xm,
-      yend = 0
-    ),
-    colour = "blue",
-    linetype = "dashed") +
-    ggplot2::geom_segment(ggplot2::aes(
-      x = 0,
-      y = yh,
-      xend = xh,
-      yend = yh
-    ),
-    colour = "brown",
-    linetype = "dashed") +
-    ggplot2::geom_segment(ggplot2::aes(
-      x = xh,
-      y = yh,
-      xend = xh,
-      yend = 0
-    ),
-    colour = "brown",
-    linetype = "dashed") +
-    ggplot2::geom_segment(ggplot2::aes(
-      x = 0,
-      y = yc,
-      xend = xc,
-      yend = yc
-    ),
-    colour = "black",
-    linetype = "dashed") +
-    ggplot2::geom_segment(ggplot2::aes(
-      x = xc,
-      y = yc,
-      xend = xc,
-      yend = 0
-    ),
-    colour = "black",
-    linetype = "dashed") +
+    ggplot2::geom_segment(
+      ggplot2::aes(
+        x = 0,
+        y = yv,
+        xend = xv,
+        yend = yv
+      ),
+      colour = "darkgreen",
+      linetype = "dashed"
+    ) +
+    ggplot2::geom_segment(
+      ggplot2::aes(
+        x = xv,
+        y = yv,
+        xend = xv,
+        yend = 0
+      ),
+      colour = "darkgreen",
+      linetype = "dashed"
+    ) +
+    ggplot2::geom_segment(
+      ggplot2::aes(
+        x = 0,
+        y = ym,
+        xend = xm,
+        yend = ym
+      ),
+      colour = "blue",
+      linetype = "dashed"
+    ) +
+    ggplot2::geom_segment(
+      ggplot2::aes(
+        x = xm,
+        y = ym,
+        xend = xm,
+        yend = 0
+      ),
+      colour = "blue",
+      linetype = "dashed"
+    ) +
+    ggplot2::geom_segment(
+      ggplot2::aes(
+        x = 0,
+        y = yh,
+        xend = xh,
+        yend = yh
+      ),
+      colour = "brown",
+      linetype = "dashed"
+    ) +
+    ggplot2::geom_segment(
+      ggplot2::aes(
+        x = xh,
+        y = yh,
+        xend = xh,
+        yend = 0
+      ),
+      colour = "brown",
+      linetype = "dashed"
+    ) +
+    ggplot2::geom_segment(
+      ggplot2::aes(
+        x = 0,
+        y = yc,
+        xend = xc,
+        yend = yc
+      ),
+      colour = "black",
+      linetype = "dashed"
+    ) +
+    ggplot2::geom_segment(
+      ggplot2::aes(
+        x = xc,
+        y = yc,
+        xend = xc,
+        yend = 0
+      ),
+      colour = "black",
+      linetype = "dashed"
+    ) +
     ggplot2::xlab("Concentration") +
     ggplot2::ylab("Response (AU)") +
     ggplot2::annotate(
@@ -140,7 +157,7 @@ plotlinDL <- function(d) {
 #-------------------------------------------------------------------------------
 #   Revised scripts for linear, quadratic and power regression model types
 
-
+#' @importFrom ggplot2 ggplot aes geom_point xlab ylab labs
 base_resid_plot <- function(d, tit) {
   ggplot2::ggplot(d,  ggplot2::aes(x, y)) +
     ggplot2::geom_point() +
@@ -187,12 +204,13 @@ resid_plot <- function(d , model_type = NULL) {
   }
 }
 #------------------------------------------------
+#' @importFrom ggplot2 ggplot aes geom_point geom_line theme geom_segment xlab ylab annotate
 baseDLplot <- function(d, x_dl, y_dl, tit) {
   p <-  ggplot2::ggplot(d,  ggplot2::aes(x, y)) +
     ggplot2::geom_point() +
-    ggplot2::geom_line(( ggplot2::aes(x, y = y_fit, col = "blue"))) +
-    ggplot2::geom_line(( ggplot2::aes(x, y = y_lwr, col = "red"))) +
-    ggplot2::geom_line(( ggplot2::aes(x, y = y_upr, col = "red"))) +
+    ggplot2::geom_line((ggplot2::aes(x, y = y_fit, col = "blue"))) +
+    ggplot2::geom_line((ggplot2::aes(x, y = y_lwr, col = "red"))) +
+    ggplot2::geom_line((ggplot2::aes(x, y = y_upr, col = "red"))) +
     ggplot2::theme(legend.position = "none") +
     ggplot2::xlab("Concentration") +
     ggplot2::ylab("Response (AU)") +
@@ -298,4 +316,3 @@ plotDL <- function(d, model_type = NULL) {
     )
   }
 }
-
