@@ -15,7 +15,7 @@ test_that("dl_miller object length", {
 
 #----------------------------------------------------
 data("vhtab6")
-d <- adjustcolnames(vhtab6)
+d <- adjustdf(vhtab6)
 tst <- round(dl_vogelhad(d$x, d$y), 1)
 test_that("dl_vogelhad test", {
   expect_equal(tst, expected = 8.7 , tolerance = 0.2)

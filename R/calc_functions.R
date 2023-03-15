@@ -131,7 +131,6 @@ dl_power <- function(x, y) {
 #' data(mtbe)
 #' calcDL(mtbe) 	  #single decimal point, with default to linear regression
 #' calcDL(mtbe, 3)	#three decimal points
-#' @return
 #' @export
 calcDL <- function(d, model_type = NULL, dp = NULL) {
   d <- adjustdf(d)

@@ -13,7 +13,6 @@
 #' @importFrom gt gt
 #' @importFrom chemCal lod
 #' @importFrom stats lm
-#' @return
 #' @export
 tabulateDL <- function(d, dp = NULL) {
   dp <- ifelse(is.null(dp), 1, dp)
