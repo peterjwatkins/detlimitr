@@ -97,7 +97,7 @@ quad_solver <- function(a, b, c) {
 min_rss <- function(data, par) {
   with(data, sum((par[1] + par[2] * x ^ par[3] - y) ^ 2))
 }
-#' @importFrom stats lm stats
+#' @importFrom stats lm coef
 sspwr <- function(x, y) {
   p.lm <- stats::lm(log1p(y) ~ log1p(x))
   df <- as.data.frame(cbind(x, y))

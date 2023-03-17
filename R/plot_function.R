@@ -6,15 +6,16 @@
 #' @usage plotlinDL(d)
 #' @examples
 #' data(mtbe)
-#' plotDL(mtbe)
+#' plotlinDL(mtbe)
 #' p <- plotDL(mtbe)
 #' p + ## add additional labels
 #'   ggplot2::xlab(expression(paste("Concentration (ng", " ", "g" ^ {-1}, ")")))
 #' @importFrom dplyr filter
+#' @importFrom chemCal lod
 #' @importFrom ggplot2 ggplot aes geom_point geom_abline geom_segment xlab ylab annotate
 #' @export
 plotlinDL <- function(d) {
-  d <- adjustcolnames(d)
+  d <- adjustdf(d)
   x <- d$x
   y <- d$y
   l <- chemCal::lod(lm(y ~ x))
@@ -155,7 +156,7 @@ plotlinDL <- function(d) {
 #   Revised scripts for linear, quadratic and power regression model types
 
 #' @importFrom ggplot2 ggplot aes geom_point xlab ylab labs
-base_resid_plot <- function(x,y, tit) {
+base_resid_plot <- function(x, y, tit) {
   ggplot2::ggplot(ggplot2::aes(x, y)) +
     ggplot2::geom_point() +
     ggplot2::xlab("Fitted") +
@@ -182,13 +183,15 @@ resid_plot <- function(d , model_type = NULL) {
       },
       "q" = {
         model = stats::lm(y ~ x + I(x ^ 2))
-        base_resid_plot(stats::fitted(model), stats::resid(model), c("Quadratic"))
+        base_resid_plot(stats::fitted(model),
+                        stats::resid(model),
+                        c("Quadratic"))
       },
       "p" = {
         par <- sspwr(x, y)
         model <-
           stats::nls(y ~ C + A * x ^ b, # data=d,
-              start = list(C = par[1], A = par[2], b = par[3]))
+                     start = list(C = par[1], A = par[2], b = par[3]))
         base_resid_plot(stats::fitted(model), stats::resid(model), c("Power"))
       },
       message("Check model type: ('l')inear/('q')uadratic/('p')ower")
@@ -203,7 +206,7 @@ baseDLplot <- function(d, x_dl, y_dl, tit) {
   y_fit <- d$y_fit
   y_lwr <- d$y_lwr
   y_upr <- d$y_upr
-  p <-  ggplot2::ggplot(ggplot2::aes(x, y)) +
+  p <-  ggplot2::ggplot(d,ggplot2::aes(x, y)) +
     ggplot2::geom_point() +
     ggplot2::geom_line((ggplot2::aes(x, y = y_fit, col = "blue"))) +
     ggplot2::geom_line((ggplot2::aes(x, y = y_lwr, col = "red"))) +
@@ -252,15 +255,14 @@ plotlinearDL <- function(x, y) {
   y_upr <- pred_model[, 3]
 
   dt <-
-    data.frame(cbind(
-      x,
-      y,
-      y_fit,
-      y_lwr,
-      y_upr
-    ))
+    data.frame(cbind(x,
+                     y,
+                     y_fit,
+                     y_lwr,
+                     y_upr))
   x_dl <- dl_hubertvos(x, y)[1]
-  y_dl <- stats::coefficients(d.lm)[1] + stats::coefficients(d.lm)[2] * x_dl
+  y_dl <-
+    stats::coefficients(d.lm)[1] + stats::coefficients(d.lm)[2] * x_dl
 
   p <- baseDLplot(dt, x_dl, y_dl, c("Linear"))
 
@@ -302,6 +304,16 @@ plotpowerDL <- function(x, y) {
 #------------------------------------------------------------------------------
 #  Wrapper function for DL plots
 #
+##' Plots segment of calibration curve showing the approx. Hubert-Vox DL
+#' @param d A tibble containing x (concentration) and y (response)
+#' @usage plotDL(d)
+#' @examples
+#' data(mtbe)
+#' plotDL(mtbe)
+#' p <- plotDL(mtbe)
+#' p + ## add additional labels
+#'   ggplot2::xlab(expression(paste("Concentration (ng", " ", "g" ^ {-1}, ")")))
+#' @export
 plotDL <- function(d, model_type = NULL) {
   d <- adjustdf(d)
   model_type <- ifelse(is.null(model_type), "l", model_type)
