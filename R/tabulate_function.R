@@ -16,7 +16,7 @@
 #' @export
 tabulateDL <- function(d, dp = NULL) {
   dp <- ifelse(is.null(dp), 1, dp)
-  d <- adjustcolnames(d)
+  d <- adjustdf(d)
   l <- (stats::lm(y ~ x, data = d))
 
   DL_tbl <-

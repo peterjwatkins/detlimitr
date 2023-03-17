@@ -10,14 +10,15 @@ adjustdf <- function(d) {
   }
   return(as.data.frame(d))
 }
-
+#' @importFrom stats lm qf residuals
 test_model <- function(x, y) {
-  d.lm <- lm(y ~ x)
-  d.qm <- lm(y ~ x + I(x ^ 2))
+  lm <- stats::lm(y ~ x)
+  qm <- stats::lm(y ~ x + I(x ^ 2))
+  n <- length(x)
   test_stat <-
-    (sqrt(sum(residuals(d.lm) ^ 2)) - sqrt(sum(residuals(d.qm) ^ 2))) /
-    sqrt(sum(residuals(d.qm) ^ 2))
-  f_crit <- qf(0.05, 1, nrow(d) - 3)
+    (sqrt(sum(stats::residuals(lm) ^ 2)) - sqrt(sum(stats::residuals(qm) ^ 2))) /
+    sqrt(sum(stats::residuals(qm) ^ 2))
+  f_crit <- stats::qf(0.05, 1, n - 3)
 
   cat("Test statistic =", test_stat, " critical F-value", f_crit, "\n")
 
@@ -96,18 +97,21 @@ quad_solver <- function(a, b, c) {
 min_rss <- function(data, par) {
   with(data, sum((par[1] + par[2] * x ^ par[3] - y) ^ 2))
 }
-
+#' @importFrom stats lm stats
 sspwr <- function(x, y) {
   p.lm <- stats::lm(log1p(y) ~ log1p(x))
   df <- as.data.frame(cbind(x, y))
   res <- stats::optim(
-    par = c(y[1], 10 ^ coef(p.lm)[1], 10 ^ coef(p.lm)[2]),
+    par = c(y[1], 10 ^ stats::coef(p.lm)[1], 10 ^ stats::coef(p.lm)[2]),
     fn = min_rss,
     data = df
   )
-  # c(C,A,b)
+  # struture of returned data ->c(C,A,b)
   return(c(res$par[1], res$par[2], res$par[3]))
 }
+
+#' @importFrom stats nls
+#' @importFrom ggtrendline predFit
 calc_power <- function(x, y) {
   d <- as.data.frame(cbind(x, y))
 
@@ -130,23 +134,29 @@ calc_power <- function(x, y) {
   d <- as.data.frame(cbind(x = x, y = y, y_fit, y_lwr, y_upr))
   return(d)
 }
-
+#' @importFrom stats nls coef
+#' @importFrom tibble as_tibble
+#' @importFrom dplyr filter
 upr_lwr_pwr_coefs <- function(df) {
-  par <- sspwr(df$x, df$y)
+  x <- df$x
+  y <- df$y
+  y_lwr <- df$y_lwr
+  y_upr <- df$y_upr
 
-  dt <- tibble::as_tibble(cbind(x = df$x, y = df$y_lwr))
+  par <- sspwr(x, y)
+
+  dt <- tibble::as_tibble(cbind(x, y_lwr))
   dt <- dplyr::filter(dt, x > 0)
   lwr <- stats::nls(y ~ C + A * x ^ b,
                     data = dt,
                     start = list(C = par[1], A = par[2], b = par[3]))
 
-
-  dt <- tibble::as_tibble(cbind(x = df$x, y = df$y_upr))
+  dt <- tibble::as_tibble(cbind(x, y_upr))
   dt <- dplyr::filter(dt, x > 0)
   upr <- stats::nls(y ~ C + A * x ^ b,
                     data = dt,
                     start = list(C = par[1], A = par[2], b = par[3]))
 
-  return(cbind(coef(lwr), coef(upr)))
+  return(cbind(stats::coef(lwr), stats::coef(upr)))
 }
 #-------------------------------------------------------------------

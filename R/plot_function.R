@@ -164,6 +164,7 @@ base_resid_plot <- function(x,y, tit) {
     ggplot2::labs(title = tit)
 }
 
+#' @importFrom stats lm fitted resid nls
 resid_plot <- function(d , model_type = NULL) {
   d <- adjustdf(d)
   x <- d$x
@@ -178,18 +179,18 @@ resid_plot <- function(d , model_type = NULL) {
       model_type,
       "l" = {
         model = stats::lm(y ~ x)
-        base_resid_plot(fitted(model), resid(model), c("Linear"))
+        base_resid_plot(stats::fitted(model), stats::resid(model), c("Linear"))
       },
       "q" = {
         model = stats::lm(y ~ x + I(x ^ 2))
-        base_resid_plot(fitted(model), resid(model), c("Quadratic"))
+        base_resid_plot(stats::fitted(model), stats::resid(model), c("Quadratic"))
       },
       "p" = {
         par <- sspwr(x, y)
         model <-
           stats::nls(y ~ C + A * x ^ b, # data=d,
               start = list(C = par[1], A = par[2], b = par[3]))
-        base_resid_plot(fitted(model), resid(model), c("Power"))
+        base_resid_plot(stats::fitted(model), stats::resid(model), c("Power"))
       },
       message("Check model type: ('l')inear/('q')uadratic/('p')ower")
     )
@@ -198,7 +199,12 @@ resid_plot <- function(d , model_type = NULL) {
 #------------------------------------------------
 #' @importFrom ggplot2 ggplot aes geom_point geom_line theme geom_segment xlab ylab annotate
 baseDLplot <- function(d, x_dl, y_dl, tit) {
-  p <-  ggplot2::ggplot(d,  ggplot2::aes(x, y)) +
+  x <- d$x
+  y <- d$y
+  y_fit <- d$y_fit
+  y_lwr <- d$y_lwr
+  y_upr <- d$y_upr
+  p <-  ggplot2::ggplot(ggplot2::aes(x, y)) +
     ggplot2::geom_point() +
     ggplot2::geom_line((ggplot2::aes(x, y = y_fit, col = "blue"))) +
     ggplot2::geom_line((ggplot2::aes(x, y = y_lwr, col = "red"))) +
@@ -236,31 +242,37 @@ baseDLplot <- function(d, x_dl, y_dl, tit) {
   return(p)
 }
 
+#' @importFrom stats lm predict coefficients
 plotlinDL <- function(x, y) {
-  d.lm <- lm(y ~ x)
+  d.lm <- stats::lm(y ~ x)
   pred_model <-
-    predict(d.lm, newdata = as.data.frame(x), interval = "prediction")
+    stats::predict(d.lm, newdata = as.data.frame(x), interval = "prediction")
+
+  y_fit <- pred_model[, 1]
+  y_lwr <- pred_model[, 2]
+  y_upr <- pred_model[, 3]
 
   dt <-
     data.frame(cbind(
       x,
       y,
-      y_fit = pred_model[, 1],
-      y_lwr = pred_model[, 2],
-      y_upr = pred_model[, 3]
+      y_fit,
+      y_lwr,
+      y_upr
     ))
   x_dl <- dl_hubertvos(x, y)[1]
-  y_dl <- coefficients(d.lm)[1] + coefficients(d.lm)[2] * x_dl
+  y_dl <- stats::coefficients(d.lm)[1] + stats::coefficients(d.lm)[2] * x_dl
 
   p <- baseDLplot(dt, x_dl, y_dl, c("Linear"))
 
   return(p)
 }
 
+#' @importFrom stats lm predict
 plotqDL <- function(x, y) {
-  model <- lm(y ~ x + I(x ^ 2))
+  model <- stats::lm(y ~ x + I(x ^ 2))
   pred_model <-
-    predict(model, newdata = as.data.frame(x), interval = "prediction")
+    stats::predict(model, newdata = as.data.frame(x), interval = "prediction")
 
   dt <-
     data.frame(cbind(
