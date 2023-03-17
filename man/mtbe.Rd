@@ -3,7 +3,7 @@
 \docType{data}
 \name{mtbe}
 \alias{mtbe}
-\title{Calibration dataset for methyl tert-butyl ether in water using GC-MS.}
+\title{Calibration dataset for MTBE in water using GC-MS.}
 \format{
 A data frame with 18 rows and 2 variables:
 \describe{
@@ -18,6 +18,6 @@ A data frame with 18 rows and 2 variables:
 data(mtbe)
 }
 \description{
-A dataset containing concentration (μg/L, x) and measured response (area, y).
+A dataset containing methyl tert-butyl ether (MTBE) concentration (μg/L, x) and measured response (area, y).
 }
 \keyword{datasets}

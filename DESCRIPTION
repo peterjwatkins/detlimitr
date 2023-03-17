@@ -1,13 +1,13 @@
 Package: detlimitr
 Type: Package
 Title: Estimating detection limits using R
-Version: 0.1.0
+Version: 0.2.0
 Author: Peter Watkins   
 Maintainer: Peter Watkins <Peter.Watkins@csiro.au>
 Description: A set of functions for estimating detection limits of calibration data.
-    The detection limits are estimated using three approaches; i) Miller & Miller, ii 
+    The package can be used for linear, quadratic or power regression. In the case of
+    linear regression, the detection limits are estimated using three approaches; i) Miller & Miller, ii 
     Vogelgesang & Hädrich, iii) Hubert & Vos (by iteration) and iv) the R 'chemCal' package.
-    A linear response is assumed between the measured response and standard solutions.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

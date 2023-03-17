@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_function.R
 \name{plotlinDL}
 \alias{plotlinDL}
-\title{Plots segment of calibration curve showing the estimated limit for linear regression.}
+\title{Plots segment of calibration curve showing the estimated linear DLs.}
 \usage{
 plotlinDL(d)
 }
@@ -10,12 +10,12 @@ plotlinDL(d)
 \item{d}{A tibble containing x (concentration) and y (response)}
 }
 \description{
-Plots segment of calibration curve showing the estimated limit for linear regression.
+Plots segment of calibration curve showing the estimated linear DLs.
 }
 \examples{
 data(mtbe)
 plotlinDL(mtbe)
-p <- plotDL(mtbe)
+p <- plotlinDL(mtbe)
 p + ## add additional labels
   ggplot2::xlab(expression(paste("Concentration (ng", " ", "g" ^ {-1}, ")")))
 }

@@ -3,6 +3,7 @@
 export(calcDL)
 export(plotDL)
 export(plotlinDL)
+export(resid_plot)
 export(tabulateDL)
 importFrom(chemCal,lod)
 importFrom(dplyr,filter)

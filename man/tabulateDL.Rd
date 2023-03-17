@@ -12,8 +12,9 @@ tabulateDL(d, dp = NULL)
 \item{dp}{Number of decimal points}
 }
 \description{
-A function which tabulates the detection limits estimated using four approaches;
-i) Miller and Miller, ii) Vogelgesang and Hädrich, iii) Hubert & Vos, and iv) the R \emph{chemCal} package.
+A function which tabulates the detection limits for linear regression,
+estimated using four approaches; #' i) Miller and Miller, ii) Vogelgesang and Hädrich, iii) Hubert & Vos,
+and iv) the R \emph{chemCal} package.
 By default, a single decimal point is shown but this can be changed by the user.
 }
 \examples{

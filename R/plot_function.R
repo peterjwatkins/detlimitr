@@ -1,13 +1,13 @@
 #----------------------------------
 #   Original linear plot
 #
-##' Plots segment of calibration curve showing the estimated limit for linear regression.
+##' Plots segment of calibration curve showing the estimated linear DLs.
 #' @param d A tibble containing x (concentration) and y (response)
 #' @usage plotlinDL(d)
 #' @examples
 #' data(mtbe)
 #' plotlinDL(mtbe)
-#' p <- plotDL(mtbe)
+#' p <- plotlinDL(mtbe)
 #' p + ## add additional labels
 #'   ggplot2::xlab(expression(paste("Concentration (ng", " ", "g" ^ {-1}, ")")))
 #' @importFrom dplyr filter
@@ -153,51 +153,7 @@ plotlinDL <- function(d) {
   return(p)
 }
 #-------------------------------------------------------------------------------
-#   Revised scripts for linear, quadratic and power regression model types
 
-#' @importFrom ggplot2 ggplot aes geom_point xlab ylab labs
-base_resid_plot <- function(x, y, tit) {
-  ggplot2::ggplot(ggplot2::aes(x, y)) +
-    ggplot2::geom_point() +
-    ggplot2::xlab("Fitted") +
-    ggplot2::ylab("Residuals") +
-    ggplot2::labs(title = tit)
-}
-
-#' @importFrom stats lm fitted resid nls
-resid_plot <- function(d , model_type = NULL) {
-  d <- adjustdf(d)
-  x <- d$x
-  y <- d$y
-  model_type <- ifelse(is.null(model_type), "l", model_type)
-
-  if (!is.character(model_type))
-    message("Model type is not known - ('l')inear/('q')uadratic/('p')ower")
-  else {
-    model_type <- set_model(model_type)
-    switch(
-      model_type,
-      "l" = {
-        model = stats::lm(y ~ x)
-        base_resid_plot(stats::fitted(model), stats::resid(model), c("Linear"))
-      },
-      "q" = {
-        model = stats::lm(y ~ x + I(x ^ 2))
-        base_resid_plot(stats::fitted(model),
-                        stats::resid(model),
-                        c("Quadratic"))
-      },
-      "p" = {
-        par <- sspwr(x, y)
-        model <-
-          stats::nls(y ~ C + A * x ^ b, # data=d,
-                     start = list(C = par[1], A = par[2], b = par[3]))
-        base_resid_plot(stats::fitted(model), stats::resid(model), c("Power"))
-      },
-      message("Check model type: ('l')inear/('q')uadratic/('p')ower")
-    )
-  }
-}
 #------------------------------------------------
 #' @importFrom ggplot2 ggplot aes geom_point geom_line theme geom_segment xlab ylab annotate
 baseDLplot <- function(d, x_dl, y_dl, tit) {
@@ -304,15 +260,19 @@ plotpowerDL <- function(x, y) {
 #------------------------------------------------------------------------------
 #  Wrapper function for DL plots
 #
-##' Plots segment of calibration curve showing the approx. Hubert-Vox DL
+##' Plots the calibration curve.
 #' @param d A tibble containing x (concentration) and y (response)
-#' @usage plotDL(d)
+#' @param model_type (l)inear, (q)uadratic or (p)ower regression
+#' @usage plotDL(d, model_type = NULL)
 #' @examples
 #' data(mtbe)
 #' plotDL(mtbe)
 #' p <- plotDL(mtbe)
 #' p + ## add additional labels
 #'   ggplot2::xlab(expression(paste("Concentration (ng", " ", "g" ^ {-1}, ")")))
+#'
+#' data(chloromethane)
+#' plotDL(chloromethane, "q")
 #' @export
 plotDL <- function(d, model_type = NULL) {
   d <- adjustdf(d)

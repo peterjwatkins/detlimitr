@@ -1,6 +1,7 @@
 #' Tabulate detection limits
-#' @description A function which tabulates the detection limits estimated using four approaches;
-#' i) Miller and Miller, ii) Vogelgesang and Hädrich, iii) Hubert & Vos, and iv) the R \emph{chemCal} package.
+#' @description A function which tabulates the detection limits for linear regression,
+#' estimated using four approaches; #' i) Miller and Miller, ii) Vogelgesang and Hädrich, iii) Hubert & Vos,
+#' and iv) the R \emph{chemCal} package.
 #' By default, a single decimal point is shown but this can be changed by the user.
 #' @param d A tibble containing x (concentration) and y (response).
 #' @param dp Number of decimal points

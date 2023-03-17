@@ -11,9 +11,9 @@
 #' @source {J. Vogelgesang and J. Hädrich (1998), Accred. Qual. Assur., 3:242-255.}
 "vhtab6"
 
-#' Calibration dataset for methyl tert-butyl ether in water using GC-MS.
+#' Calibration dataset for MTBE in water using GC-MS.
 #'
-#' A dataset containing concentration (μg/L, x) and measured response (area, y).
+#' A dataset containing methyl tert-butyl ether (MTBE) concentration (μg/L, x) and measured response (area, y).
 #'
 #' @format A data frame with 18 rows and 2 variables:
 #' \describe{
@@ -37,11 +37,12 @@
 #' @source {O.B. da Silva and S.A.S. Machado, (2012), Anal. Methods, 4:2348-2354}
 "paraquat"
 
-#' Chloromethane (CH3Cl) calibration data from gas chromatography-mass spectrometry, using
-#' fluorobenzene as an internal standard (IS)
+#' Chloromethane calibration data using GC-MS
 #'
-#' A dataset containing concentration (μg/L, x) and the ratios of measured peak area for
-#' CH3Cl to IS.
+#' Chloromethane (CH3Cl) calibration data using GC-MS with fluorobenzene as an internal standard (IS)
+#'
+#' A dataset containing chloromethane concentration (μg/L, x) and the ratio of the measured peak
+#' area for chloromethane to that of the internal standard, flurobenzene.
 #'
 #' @format A data frame with 90 rows and 2 variables:
 #' \describe{
@@ -52,19 +53,18 @@
 #' @source {I. Lavagnini and F. Magno, (2007), Mass Spec. Rev., 26:1-18}
 "chloromethane"
 
-#' High performance liquid chromatography (HPLC) calibration data for five analytes
-#' (ibuprofen, genisten, biochanin, pseudoephedrine and sodium nitrate) measured under
-#' different instrumental conditions.
+#' HPLC calibration data for five analytes.
 #'
-#' A dataset containing analyte, concentration (different units) and the
-#' measured peak area.
+#' Calibration data for five analytes (ibuprofen, genisten, biochanin,
+#' pseudoephedrine and sodium nitrate) using different instrumental
+#' conditions.
 #'
-#' @format A data frame with 70 rows and 3 variables:
+#' @format A data frame with 70 rows and three variables:
 #' \describe{
-#'   \item{Analyte}
-#'   \item{Concentration}{range of units}
-#'   \item{Area}{Arbitrary unit}
+#'    \item{Analyte}{}
+#'    \item{Concentration}{Different units}
+#'    \item{Area}{Arbitrary unit}
 #' }
-#' @usage data(hplc)
+#' @usage data(hplccal)
 #' @source {L. Kirkup and M. Mulholland, (2004), J. Chrom. A, 1029:1-11}
-"hplc"
+"hplccal"
