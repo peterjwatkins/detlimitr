@@ -1,6 +1,6 @@
 #------------------------ Linear detection limits ------------------------------
 dl_miller <- function(x, y) {
-# Used internally to estimate the detection limit acccording to
+# Used internally to estimate the detection limit according to
 # Miller & Miller
     n <- length(x)
     ls <- least_sq_est(x, y)
@@ -15,7 +15,7 @@ dl_miller <- function(x, y) {
 
 #' @importFrom stats qt
 dl_vogelhad <- function(x, y) {
-    # Used internally to estimate the detection limit acccording to
+    # Used internally to estimate the detection limit according to
     # Vogelgesang & Hädrich
     n <- length(x)
     ls <- least_sq_est(x, y)
@@ -69,11 +69,12 @@ dl_linear <- function(x, y, dp) {
   cat("Hubaux-Vos", round(dl_hubertvos(x, y), dp), "\n")
 }
 #--------------  Quadratic regression calculation limits -----------------------
+#' @importFrom stats lm predict
 dl_quad <- function(x, y) {
-  model <- lm(y ~ x + I(x ^ 2))
+  model <- stats::lm(y ~ x + I(x ^ 2))
   x_range <- as.data.frame(x)
   pred_model <-
-    predict(model, newdata = x_range, interval = "prediction")
+    stats::predict(model, newdata = x_range, interval = "prediction")
 
   ###
   # Find x on the 'lo' curve which equals the intercept on 'hi'
@@ -89,14 +90,16 @@ dl_quad <- function(x, y) {
   return(qdl)
 }
 
+
 #-------------- Power regression calculation limits ----------------------------
+#' @importFrom stats uniroot
 dl_power <- function(x, y) {
   dt <- calc_power(x, y)
   co <- upr_lwr_pwr_coefs(dt)
 
   f <- function(x)
     co[2, 2] * x ^ co[3, 2] + (co[1, 1] - co[1, 2])
-  pwrdl <- uniroot(f, c(0, max(x)))$root
+  pwrdl <- stats::uniroot(f, c(0, max(x)))$root
   return(pwrdl)
 }
 

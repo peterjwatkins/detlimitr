@@ -1,6 +1,3 @@
-
-
-
 #----------------------------------
 #   Original linear plot
 #
@@ -158,7 +155,8 @@ plotlinDL <- function(d) {
 #   Revised scripts for linear, quadratic and power regression model types
 
 #' @importFrom ggplot2 ggplot aes geom_point xlab ylab labs
-base_resid_plot <- function(d, tit) {
+base_resid_plot <- function(x,y, tit) {
+  d <- as.data.frame(cbind(x,y))
   ggplot2::ggplot(d,  ggplot2::aes(x, y)) +
     ggplot2::geom_point() +
     ggplot2::xlab("Fitted") +
@@ -179,25 +177,19 @@ resid_plot <- function(d , model_type = NULL) {
     switch(
       model_type,
       "l" = {
-        model = lm(y ~ x)
-        dt <-
-          as.data.frame(cbind(x = fitted(model), y = resid(model)))
-        base_resid_plot(dt, c("Linear"))
+        model = stats::lm(y ~ x)
+        base_resid_plot(fitted(model), resid(model), c("Linear"))
       },
       "q" = {
-        model = lm(y ~ x + I(x ^ 2))
-        dt <-
-          as.data.frame(cbind(x = fitted(model), y = resid(model)))
-        base_resid_plot(dt, c("Quadratic"))
+        model = stats::lm(y ~ x + I(x ^ 2))
+        base_resid_plot(fitted(model), resid(model), c("Quadratic"))
       },
       "p" = {
-        par <- sspwr(d$x, d$y)
+        par <- sspwr(x, y)
         model <-
-          nls(y ~ C + A * x ^ b, # data=d,
+          stats::nls(y ~ C + A * x ^ b, # data=d,
               start = list(C = par[1], A = par[2], b = par[3]))
-        dt <-
-          as.data.frame(cbind(x = fitted(model), y = resid(model)))
-        base_resid_plot(dt, c("Power"))
+        base_resid_plot(fitted(model), resid(model), c("Power"))
       },
       message("Check model type: ('l')inear/('q')uadratic/('p')ower")
     )
