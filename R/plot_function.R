@@ -156,8 +156,7 @@ plotlinDL <- function(d) {
 
 #' @importFrom ggplot2 ggplot aes geom_point xlab ylab labs
 base_resid_plot <- function(x,y, tit) {
-  d <- as.data.frame(cbind(x,y))
-  ggplot2::ggplot(d,  ggplot2::aes(x, y)) +
+  ggplot2::ggplot(ggplot2::aes(x, y)) +
     ggplot2::geom_point() +
     ggplot2::xlab("Fitted") +
     ggplot2::ylab("Residuals") +
@@ -243,7 +242,7 @@ baseDLplot <- function(d, x_dl, y_dl, tit) {
 }
 
 #' @importFrom stats lm predict coefficients
-plotlinDL <- function(x, y) {
+plotlinearDL <- function(x, y) {
   d.lm <- stats::lm(y ~ x)
   pred_model <-
     stats::predict(d.lm, newdata = as.data.frame(x), interval = "prediction")
@@ -313,7 +312,7 @@ plotDL <- function(d, model_type = NULL) {
     model_type <- set_model(model_type)
     switch(
       model_type,
-      "l" = plotlinDL(d$x, d$y),
+      "l" = plotlinearDL(d$x, d$y),
       "q" = plotqDL(d$x, d$y),
       "p" = plotpowerDL(d$x, d$y),
       message("Check model type: ('l')inear/('q')uadratic/('p')ower")
