@@ -40,6 +40,11 @@ The default number of single decimal point is 1 but this can be changed by the u
 }
 \examples{
 data(mtbe)
-calcDL(mtbe) 	  #single decimal point, with default to linear regression
-calcDL(mtbe, 3)	#three decimal points
+calcDL(mtbe) 	  # single decimal point, with default to linear regression
+calcDL(mtbe, 3)  # error as regression type not defined
+calcDL(mtbe, dp = 3)
+
+data(chloromethane)
+calcDL(chloromethane, dp = 2)
+calcDL(chloromethane, "q", dp = 2) # quadratic regression
 }

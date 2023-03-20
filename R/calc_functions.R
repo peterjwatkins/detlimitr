@@ -132,8 +132,13 @@ dl_power <- function(x, y) {
 #' }
 #' @examples
 #' data(mtbe)
-#' calcDL(mtbe) 	  #single decimal point, with default to linear regression
-#' calcDL(mtbe, 3)	#three decimal points
+#' calcDL(mtbe) 	  # single decimal point, with default to linear regression
+#' calcDL(mtbe, 3)  # error as regression type not defined
+#' calcDL(mtbe, dp = 3)
+#'
+#' data(chloromethane)
+#' calcDL(chloromethane, dp = 2)
+#' calcDL(chloromethane, "q", dp = 2) # quadratic regression
 #' @export
 calcDL <- function(d, model_type = NULL, dp = NULL) {
   d <- adjustdf(d)
