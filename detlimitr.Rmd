@@ -1,0 +1,83 @@
+---
+title: "detlimitr"
+author: "Peter Watkins"
+date: "2023-03-17"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+*detlimitr*
+==========
+
+### An introduction to the detlimitr package
+
+The *detlimitr* (estimating **det**ection **limit**s using **R**) package contains functions for use with calibration data in analytical chemistry,
+
+The detection limit is an important figure of merit in chemical analysis.  It is also known as the lower limit of detection, or LOD (limit of detection), and can be defined as the lowest quantity of a substance that can be distinguished from the absence of that substance (a blank value) with a stated confidence level (generally 99%).
+
+If required, the *detlimiter* package can be downloaded using
+
+``` 
+#install.packages("devtools") 
+devtools::install_github("peterjwatkins/detlimitr", force=TRUE)
+```
+
+In this package, the detection limit can be calculated for linear, quadratic or power regression. For the latter, the model for the measured response, $y$, and concentration, $x$, is given by $y = C + Ax^b$ where $C$, $A$ and $b$ are the estimated parameters. 
+
+In this package, the detection limit for linear regression is calculated using four approaches; i) Miller and Miller, ii) Vogelsang and Hädrich, iii) Hubert and Vos, and iv) the R chemCal package. Note that the approaches used for these estimations are listed in the references shown below.
+
+The *resid_plot* function in the package is provided to allow the user to evaluate which regression type (linear, quadratic or power) can be used to the model the response of the calibration data. By default, linear regression is assumed and so a visual assessment can be made using:
+
+``` {r resid_plot linear}
+library(detlimitr)
+data(mtbe)
+resid_plot(mtbe)
+```
+However, it may be observed that a quadratic or power regression may prove to be better models for the data. These models can also be tested.
+``` {r resid_plot quad}
+data("chloromethane")
+#resid_plot(chloromethane)
+#resid_plot(chloromethane, "p")
+
+resid_plot(chloromethane, "q")
+```
+
+The function *calcDL* returns the calculated detection limits for the calibration data. As with *resid_plot*, linear regression is assumed by default. For the linear model, the DLs are calculated using the approaches described above while *plotDL* shows the calibration curve, showing the estimated detection limit, according to Hubert and Vos. For linear regressiom, this is iteratively calculated while this is done differently for quadratic and power regression. these are estimated using the intersection of the upper prediction limit with the *x* = 0 line which intersects the lower prediction line. The associated *x* value is taked as the estimated detection limit. Reference v) provides further details on this approach.
+
+``` {r calc eg}
+data(mtbe)
+#head(mtbe)
+calcDL(mtbe, dp = 2) # By default, the number of decimal points (dp) = 1.
+#tabulateDL(mtbe)
+p <- plotDL(mtbe)
+p
+plotDL(chloromethane, "q")
+```
+
+The function *tabulateDL* summarises the data for linear regression in a tabular format.
+
+An expanded view for the calculation curve that shows the estimates of the detection limits for linear regression is available with *plotlinDL*.
+``` {r linear plot}
+plotlinDL(mtbe)
+```
+
+The graph resulting from *plotDL* has generic labels on the plot. This can be changed using appropriate *ggplot2* commands. For example,
+``` {r plot extension}
+p +
+  ggplot2::xlab(expression(paste("Concentration (ng", " ", "g" ^ {-1}, ")")))
+```
+
+**References**
+
+i) J.C. Miller and J.N. Miller (1993), "Statistics for Analytical Chemistry", 3rd ed., Prentice-Hall.
+
+ii) J. Vogelgesang and J. Hädrich (1998), Accred. Qual. Assur., 3:242-255.
+
+iii) A. Hubaux and G. Vos (1970), Anal. Chem., 42:849-855 & D.T. O'Neill, E.A. Rochette and P.J. Ramsay, (2002), Anal. Chem., 74:5907-5911
+
+iv) J. Ranke (2018), chemCal: Calibration Functions for Analytical Chemistry, https://CRAN.R-project.org/package=chemCal
+
+v) D. Coleman and L. Vanatta (2009). American Laboratory, Statistics in Analytical Chemistry: Part 34 - Detection Limit Summary.
