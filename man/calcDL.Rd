@@ -12,6 +12,7 @@ iii) A. Hubaux and G. Vos (1970), Anal. Chem., 42:849-855
 & D.T. O'Neill, E.A. Rochette and P.J. Ramsay, (2002), Anal. Chem., 74:5907-5911
 iv) J. Ranke, (2018), chemCal: Calibration Functions for Analytical Chemistry,
 https://CRAN.R-project.org/package=chemCal
+v) D. Coleman and L. Vanatta (2009). American Laboratory, Statistics in Analytical Chemistry: Part 34 - Detection Limit Summary.
 }
 }
 \usage{
@@ -32,8 +33,12 @@ iii) Hubert & Vos, and iv) the R \emph{chemCal} package. The first two DLs are
 directly estimated using internal functions, \emph{dl_miller} and \emph{dl_vogelhad}
 while the third DL is estimated iteratively using \emph{dl_hubertvos}.
 The default regression is assumed to be linear. However, the DLs can also be
-estimated for either a quadratic ("q") or power ("p") regression. The user is advised
-though to verify the best regression approach by assessment of the residual
+estimated for either a quadratic ("q") or power ("p") regression.
+For quadratic and power regression, the DLs are estimated using the intersection
+of the upper prediction limit with the *x* = 0 line which then intersects
+the lower prediction line. The associated *x* value is taken as the estimated detection limit.
+See v) for further details on this approach. The user is advised
+though to verify the best regression approach by assessing the residual
 plots - see \emph{resid_plot} for further details.
 
 The default number of single decimal point is 1 but this can be changed by the user.
