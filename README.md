@@ -26,7 +26,7 @@ data("chloromethane")
 plotDL(chloromethane, "q")
 ```
 
-Further information and examples can be found in 'docs/detlimitr.Rmd'.
+Further information and examples can be found in 'detlimitr.Rmd'.
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
