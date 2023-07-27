@@ -6,6 +6,9 @@ adjustdf <- function(d) {
   # Issue if the column names are not 'x' & 'y'
   if (colnames(d)[1] != "x") {
     names(d)[1] <- "x"
+  }
+  ## Explicitly check for y as well
+  if (colnames(d)[2] != "y") {
     names(d)[2] <- "y"
   }
   return(as.data.frame(d))
