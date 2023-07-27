@@ -18,7 +18,8 @@ Imports:
     chemCal,
     gt,
     tibble,
-    ggtrendline
+    ggtrendline,
+    minpack.lm
 Suggests: 
     knitr,
     rmarkdown,
