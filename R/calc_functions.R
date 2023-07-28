@@ -56,8 +56,8 @@ calcDL <- function(d, model_type = NULL, dp = NULL) {
     switch(
       model_type,
       "l" = dl_linear(d$x, d$y, dp),
-      "q" = cat("Vogelsang-Hadrich", round(dl_quad(d$x, d$y), dp), "\n"),
-      "p" = cat("Vogelsang-Hadrich", round(dl_power(d$x, d$y), dp), "\n"),
+      "q" = cat("Hubert & Vos ", round(dl_quad(d$x, d$y), dp), "\n"),
+      "p" = cat("Hubert & Vos ", round(dl_power(d$x, d$y), dp), "\n"),
       message("Check model type: ('l')inear/('q')uadratic/('p')ower")
     )
   }
