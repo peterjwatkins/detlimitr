@@ -13,14 +13,14 @@ base_resid_plot <- function(x, y, tit) {
 #' Plots residual plots for different regressions
 #' @param d A tibble containing x (concentration) and y (response)
 #' @param model_type (l)inear, (q)uadratic or (p)ower regression
-#' @usage resid_plot(d, model_type = NULL)
+#' @usage residplot(d, model_type = NULL)
 #' @examples
 #' data(chloromethane)
-#' resid_plot(chloromethane)
-#' resid_plot(chloromethane, "q")
+#' residplot(chloromethane)
+#' residplot(chloromethane, "q")
 #' @export
 #' @importFrom stats lm fitted resid nls
-resid_plot <- function(d , model_type = NULL) {
+residplot <- function(d , model_type = NULL) {
   d <- adjustdf(d)
   x <- d$x
   y <- d$y

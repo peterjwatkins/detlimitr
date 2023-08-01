@@ -29,23 +29,23 @@ In this package, the detection limit can be calculated for linear, quadratic or 
 
 In this package, the detection limit for linear regression is calculated using four approaches; i) Miller and Miller, ii) Vogelsang and Hädrich, iii) Hubert and Vos, and iv) the R chemCal package. Note that the approaches used for these estimations are listed in the references shown below.
 
-The *resid_plot* function in the package is provided to allow the user to evaluate which regression type (linear, quadratic or power) can be used to the model the response of the calibration data. By default, linear regression is assumed and so a visual assessment can be made using:
+The *residplot* function in the package is provided to allow the user to evaluate which regression type (linear, quadratic or power) can be used to the model the response of the calibration data. By default, linear regression is assumed and so a visual assessment can be made using:
 
 ``` {r resid_plot linear}
 library(detlimitr)
 data(mtbe)
-resid_plot(mtbe)
+residplot(mtbe)
 ```
-However, it may be observed that a quadratic or power regression may prove to be better models for the data. These models can also be tested.
+However, either a quadratic or power model may prove to be better to model the data. These models also be tested.
 ``` {r resid_plot quad}
 data("chloromethane")
-#resid_plot(chloromethane)
-#resid_plot(chloromethane, "p")
+#residplot(chloromethane)
+#residplot(chloromethane, "p")
 
-resid_plot(chloromethane, "q")
+residplot(chloromethane, "q")
 ```
 
-The function *calcDL* returns the calculated detection limits for the calibration data. As with *resid_plot*, linear regression is assumed by default. For the linear model, the DLs are calculated using the approaches described above while *plotDL* shows the calibration curve, showing the estimated detection limit, according to Hubert and Vos. For linear regressiom, this is iteratively calculated while this is done differently for quadratic and power regression. these are estimated using the intersection of the upper prediction limit with the *x* = 0 line which intersects the lower prediction line. The associated *x* value is taked as the estimated detection limit. Reference v) provides further details on this approach.
+The function *calcDL* returns the calculated detection limits for the calibration data. As with *residplot*, linear regression is assumed by default. For the linear model, the DLs are calculated using the approaches described above while *plotDL* shows the calibration curve, showing the estimated detection limit, according to Hubert and Vos. This value is calculated iteratively for linear regression  while, for quadratic and power regression, this value is estimated with the intersection of the upper prediction line when *x* = 0 (i.e., the constant for the upper prediction line) with the lower prediction line. The associated *x* value found on the lower prediction line is taken as the estimated detection limit. Reference v) provides further details on this approach.
 
 ``` {r calc eg}
 data(mtbe)

@@ -18,7 +18,7 @@ Some example code:
 ```R 
 library(detlimitr)
 data(mtbe)
-calcDL(mtbe)  # or delimitr::summaryDL(mtbe)
+calcDL(mtbe)  # or delimitr::calcDL(mtbe)
 tabulateDL(mtbe) # or delimitr::tabulateDL(mtbe)
 plotDL(mtbe)     # or delimitr::plotDL(mtbe)
 
